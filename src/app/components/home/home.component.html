@@ -1,0 +1,9 @@
+<p>home works!</p>
+<form [formGroup]="validatingForm">
+    <div class="md-form">
+      <input mdbInput mdbValidate type="text" id="form1" class="form-control" formControlName="required">
+      <label for="form1">Required validator</label>
+      <mdb-error *ngIf="input.invalid && (input.dirty || input.touched)">Input invalid</mdb-error>
+      <mdb-success *ngIf="input.valid && (input.dirty || input.touched)">Input valid</mdb-success>
+    </div>
+  </form>
