@@ -11,7 +11,13 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class HomeComponent implements OnInit {
 
   constructor() { }
+  options = [
+    { value: '1', label: 'Option 1' },
+    { value: '2', label: 'Option 2' },
+    { value: '3', label: 'Option 3' },
+  ];
 
+  selectControl = new FormControl('');
   
 
   ngOnInit() {
@@ -19,6 +25,9 @@ export class HomeComponent implements OnInit {
     //   required: new FormControl(null, Validators.required),
     //   required1: new FormControl(null,Validators.required)
     // });
+    this.selectControl.valueChanges.subscribe((value: any) => {
+      console.log('Selected value:', value);
+    })
   }
 
   // get input() { return this.validatingForm.get('required'); }

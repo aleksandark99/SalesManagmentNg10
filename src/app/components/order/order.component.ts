@@ -10,8 +10,18 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class OrderComponent implements OnInit {
 
   partnerForm: FormGroup;
+  itemSelecteds : any;
 
   constructor() { }
+  optionsSelect: Array<any>;
+  selectedOption: any = {value: '', label: ''};
+  selectControl = new FormControl('');
+  
+
+  optionSelect(event: any) {
+    console.log(event);
+    this.selectedOption = event;
+  }
 
   ngOnInit(): void {
 
@@ -23,6 +33,17 @@ export class OrderComponent implements OnInit {
       taxNo: new FormControl(null, [Validators.required, this.noWhitespaceValidator, Validators.pattern("[0-9]*$")])
      
     });
+
+    this.selectControl.valueChanges.subscribe((value: any) => {
+      console.log('Selected value:', value);
+    })
+    
+    this.optionsSelect = [
+      { value: '1', label: 'Option 1' },
+      { value: '2', label: 'Option 2' },
+      { value: '3', label: 'Option 3' },
+    ];
+  
   }
 
   get name() { return this.partnerForm.get('name'); }
@@ -37,6 +58,8 @@ export class OrderComponent implements OnInit {
     var x = this.partnerForm.value
     console.log(x)
   }
+
+
 
   public noWhitespaceValidator(control: FormControl) {
     var isWhitespace = (control.value || '').trim().length === 0;
@@ -87,8 +110,23 @@ export class OrderComponent implements OnInit {
     public items = [{ id: 1, name: 'Mleko', unit : "l" }, {id: 2, name: 'Gvožđe' , unit : "kg"}, {id: 3, name: 'Trake za krečenje', unit : "m" }];  
     
     
-    // set placeholder text to DropDownList input element
-    public placeholder: string = 'Select a game';
     public unit : string = ''
+
+    public itemSelected : boolean = false;
+    public selectedValue : any;
+
+
+    clicked(s : string){
+      console.log(s)
+    }
+
+    selectChangeHandler( $event : any) {
+      //In my case $event come with a id value
+      console.log("s")
+    }
+
+   
+
+    
 
 }//class
