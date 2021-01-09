@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="col col-lg-12">
+
+            <form [formGroup]="partnerForm">
+                <div class="md-form">
+
+                    <div class="input-group mb-3">
+                        <input mdbInput mdbValidate type="text" id="comapanyName" class="form-control" formControlName="name">
+                        <label for="comapanyName">Company name</label>
+                        <mdb-error *ngIf="name.invalid && (name.dirty || name.touched)">Invalid name</mdb-error>
+                        <mdb-success *ngIf="name.valid && (name.dirty || name.touched)"></mdb-success>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input mdbInput mdbValidate type="text" id="comapanyAddress" class="form-control" formControlName="address">
+                        <label for="comapanyAddress">Company address</label>
+                        <mdb-error *ngIf="address.invalid && (address.dirty || address.touched)">Invalid address</mdb-error>
+                        <mdb-success *ngIf="address.valid && (address.dirty || address.touched)"></mdb-success>
+                    </div>
+
+                    <div class="input-group mb-3"> 
+                        <input mdbInput mdbValidate type="text" id="comapanyPhone" class="form-control" formControlName="phone">
+                        <label for="comapanyPhone">Company phone</label>
+                        <mdb-error *ngIf="phone.invalid && (phone.dirty || phone.touched)">Invalid phone</mdb-error>
+                        <mdb-success *ngIf="phone.valid && (phone.dirty || phone.touched)"></mdb-success>
+                    </div>
+
+                    <div class="md-form">
+                        <input mdbInput mdbValidate type="text" id="companyEmail" class="form-control" formControlName="email">
+                        <label for="companyEmail">Company email</label>
+                        <mdb-error *ngIf="email.invalid && (email.dirty || email.touched)">Invalid email</mdb-error>
+                        <mdb-success *ngIf="email.valid && (email.dirty || email.touched)"></mdb-success>
+                    </div> 
+
+                    <div class="md-form">
+                        <input mdbInput mdbValidate type="text" id="companyTaxNo" class="form-control" formControlName="taxNo">
+                        <label for="companyTaxNo">Company tax number</label>
+                        <mdb-error *ngIf="taxNo.invalid && (taxNo.dirty || taxNo.touched)">Invalid tax number</mdb-error>
+                        <mdb-success *ngIf="taxNo.valid && (taxNo.dirty || taxNo.touched)"></mdb-success>
+                    </div> 
+
+                </div>
+            </form>
+       </div>
+    </div>
+  </div>

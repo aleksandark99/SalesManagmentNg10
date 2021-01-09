@@ -12,16 +12,16 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
-  validatingForm: FormGroup;
+  
 
   ngOnInit() {
-    this.validatingForm = new FormGroup({
-      required: new FormControl(null, Validators.required),
-      required1: new FormControl(null,Validators.required)
-    });
+    // this.validatingForm = new FormGroup({
+    //   required: new FormControl(null, Validators.required),
+    //   required1: new FormControl(null,Validators.required)
+    // });
   }
 
-  get input() { return this.validatingForm.get('required'); }
-  get input1() { return this.validatingForm.get('required1'); }
+  // get input() { return this.validatingForm.get('required'); }
+  // get input1() { return this.validatingForm.get('required1'); }
 
 }

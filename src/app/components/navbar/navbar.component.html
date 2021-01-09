@@ -1,0 +1,35 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
+
+    <mdb-navbar-brand>
+      <a class="navbar-brand" [routerLink]="['/']">
+        <img src="../../../assets/ftn-300x300.jpg" height="30" class="d-inline-block align-top" alt="">
+      </a>
+    </mdb-navbar-brand>
+    <mdb-icon fas icon="angle-left" size="lg" class="text-white mr-auto d-flex d-md-none align-self-center"></mdb-icon>
+      <links>
+        <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect [routerLink]="['/']">Order</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect [routerLink]="['/']">Faktura</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect [routerLink]="['/']">Izvestaj</a>
+        </li>
+      </ul>
+    </links>
+
+    <links>
+      <ul class="navbar-nav ml-auto ">
+
+      <li class="nav-item">
+        <span class="nav-link waves-light" mdbWavesEffect>{{latest_date}}</span>
+      </li>
+     
+    </ul>
+  </links> 
+
+
+</mdb-navbar>
