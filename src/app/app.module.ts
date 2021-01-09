@@ -7,12 +7,14 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { ReactiveFormsModule , FormsModule} from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
+import { CreatePricelistComponent } from './components/create-pricelist/create-pricelist.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    CreatePricelistComponent
   ],
   imports: [
     BrowserModule,

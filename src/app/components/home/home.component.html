@@ -1,9 +1,39 @@
-<p>home works!</p>
-<form [formGroup]="validatingForm">
-    <div class="md-form">
-      <input mdbInput mdbValidate type="text" id="form1" class="form-control" formControlName="required">
-      <label for="form1">Required validator</label>
-      <mdb-error *ngIf="input.invalid && (input.dirty || input.touched)">Input invalid</mdb-error>
-      <mdb-success *ngIf="input.valid && (input.dirty || input.touched)">Input valid</mdb-success>
+<div class="container">
+    <div class="row">
+      <div class="col col-lg-12">
+
+        <form [formGroup]="validatingForm">
+            <div class="md-form">
+
+                <div class="input-group mb-3">
+                    <input mdbInput mdbValidate type="text" id="form1" class="form-control" formControlName="required">
+                    <label for="form1">Unesi  naziv</label>
+                    <mdb-error *ngIf="input.invalid && (input.dirty || input.touched)">Input invalid</mdb-error>
+                    <mdb-success *ngIf="input.valid && (input.dirty || input.touched)">Input valid</mdb-success>
+                  </div>
+
+               <div class="input-group mb-3">
+                   <input mdbInput mdbValidate type="text" id="form2" class="form-control" formControlName="required1">
+                   <label for="form2">Unesi  mesto</label>
+                   <mdb-error *ngIf="input1.invalid && (input1.dirty || input1.touched)">Input invalid</mdb-error>
+                   <mdb-success *ngIf="input1.valid && (input1.dirty || input1.touched)">Input valid</mdb-success>
+               </div>
+
+
+
+              
+            </div>
+          </form>
+
+
+
+
+
+
+
+
+
     </div>
-  </form>
+    
+    </div>
+  </div>
