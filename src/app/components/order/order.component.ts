@@ -12,9 +12,11 @@ import {Unit} from "../../interfaces/unit"
 export class OrderComponent implements OnInit {
 
   partnerForm: FormGroup;
+  amountForm: FormGroup;
 
 
   constructor() { }
+
   optionsSelect: Array<any>;
   selectedOption: any = {value: '', label: ''};
   selectControl = new FormControl('');
@@ -33,7 +35,12 @@ export class OrderComponent implements OnInit {
      
     });
 
-    
+    this.amountForm = new FormGroup({
+      amount: new  FormControl(null,  Validators.compose([Validators.required ]))
+     
+     
+    });
+
     
    
   
@@ -107,20 +114,11 @@ export class OrderComponent implements OnInit {
   
 
     public itemSelected : boolean = false;
-    public amountSelected : boolean = false;
-    
 
-    itemSelectedId = -1;
-    unitSelectedId = -1;
+    
     currentItem : Item;
     currentUnit : Unit;
     
-
-    onClickedUnit(){
-      
-      this.amountSelected = true;
-
-    }
 
     onClickedItem(newValue : Event) {
       console.log(this.currentItem);
@@ -128,7 +126,7 @@ export class OrderComponent implements OnInit {
       this.itemSelected = true;
       this.units = this.currentItem.units
      
-      // ... do other stuff here ...
+
     }
     
 
