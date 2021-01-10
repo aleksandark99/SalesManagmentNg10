@@ -51,7 +51,7 @@ getSelarticle(){
     let price = this.validatingPrice.get('priceVal').value;
     // console.log(this.articles[this.selectedArticle].naziv)
     console.log(article);
-   if (article.id!=0 && price>0.01) {
+   if (article!=null && price>0.01) {
     this.elements.push({id: article.id, name: article.name, price: price}) ;
     this.selectedArticle=0;
     (index === this.articles.length) ? this.articles.pop() :    this.articles.splice(index,1);
