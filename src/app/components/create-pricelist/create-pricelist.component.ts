@@ -28,9 +28,7 @@ export class CreatePricelistComponent implements OnInit {
 
   selectedArticle:any;
 
-  selectChange() {
-    // this.selectedArticle = this.plistService.getDropDownArticle(this.mySelect, this.data)[0].name;
-}
+  // selectChange() {} za akcije da se dese ako nam je potrebno na select dropdown itema al za sad nije
 
   hel(){
     let article=this.articles[this.selectedArticle];

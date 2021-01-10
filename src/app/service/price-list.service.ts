@@ -12,6 +12,7 @@ export class PriceListService {
     alert("testservice works")
   }
 
+  //ova metoda ce dobavljati artikle sa backenda posle za sad staticki podaci za testiranje
   getArticles(){
     return [
       {id:1, name:"artikal jedan"},
