@@ -3,6 +3,7 @@ import {PriceListService}   from '../../service/price-list.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 
+
 @Component({
   selector: 'app-create-pricelist',
   templateUrl: './create-pricelist.component.html',
@@ -39,6 +40,7 @@ export class CreatePricelistComponent implements OnInit {
   headElements = ['Id','Article name', 'article price'];
 
   selectedArticle:any;
+  selectedDate:Date;
 
   // selectChange() {} za akcije da se dese ako nam je potrebno na select dropdown itema al za sad nije
 getSelarticle(){
@@ -73,20 +75,42 @@ getSelarticle(){
   get yInput() { return this.validatingForm.get('yearVal'); }  // mozemo da proverimo if input1 is valid za validaciju pre slanja na back
   
   isDateValid(){
-    let isDayhValid:boolean =this.validatingForm.get('dayVal').valid;
-    let isMonthValid:boolean =this.validatingForm.get('monthVal').valid;
-    let isYearValid:boolean =this.validatingForm.get('yearVal').valid;
-    // (isDayhValid && isMonthValid && isYearValid ) ? console.log("validno") : console.log("nije validno")
-    
-    return    (isDayhValid && isMonthValid && isYearValid ); 
-    // console.log(this.validatingForm.get('yearVal').valid)
-    
+    // let isDayhValid:boolean =this.validatingForm.get('dayVal').valid;
+    // let isMonthValid:boolean =this.validatingForm.get('monthVal').valid;
+    // let isYearValid:boolean =this.validatingForm.get('yearVal').valid;    
+    // return    (isDayhValid && isMonthValid && isYearValid ); 
+    let seldate=new Date(this.selectedDate);
+    var isValid:boolean;
+
+      (seldate < new Date()) ? isValid=false : isValid=true;
+      (!isValid) ? alert("You can choose only future date") : console.log("hi");     
+
+      return isValid;
+
+
+
+
   }
   createPricelist(){
-    console.log(this.isDateValid());// provera za date
-    console.log(this.elements.length);// ako
-    (this.elements.length>0 && this.elements!=null &&this.isDateValid() ) ? console.log("posalji na bekend da se kreira ") : alert("neispravni podaci");
+    (this.elements.length>0 && this.elements!=null &&this.isDateValid() ) ? console.log("send to backend to be created") : alert("Data not valid");
 
     console.log(this.elements)
   }
+
+  removeItem(id){
+    console.log(id)
+    let index=   this.elements.findIndex(x => x.id == id);
+
+    let article=this.elements[index];
+    this.elements.splice(index,1);
+    this.articles.push(article);
+    this.articles.sort(this.compare)
+    console.log(index)
+  }
+   compare( a, b ) {
+     let val;
+      (a.id < b.id ) ? val=-1 : val=1;
+    return val;
+  }
+
 }

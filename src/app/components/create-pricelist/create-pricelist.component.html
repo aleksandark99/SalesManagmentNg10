@@ -54,57 +54,26 @@
             <th scope="row">{{ el.id }}</th>
             <td>{{ el.name }}</td>
             <td>{{ el.price }}</td>
+            <td>            <span class="table-remove">
+              <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="removeItem(el.id)">Remove</button>
+            </span>          </td>
           </tr>
+     
         </tbody>
       </table>
     </div>
   </div>
   <br><br>
-  <div class="row">
-    <div class="col-sm">
 
-    <p>Choose a date when priclelist is going to be used</p>
+    <div class="row justify-content-md-center">
+      <div class="col-sm-auto">
+        <div class="md-form">
+          <input type="date" id="input" class="form-control" mdbInput [(ngModel)]="selectedDate">
+          <label for="input">Choose your date</label>
         </div>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-
-    <form [formGroup]="validatingForm">
-      <div class="md-form">
-        <div class="form-row mb-4">
-         
-          <div class="input-group mb-3 col-sm">
-            <input mdbInput mdbValidate type="number" id="form1" class="form-control" formControlName="dayVal">
-            <label  style="margin-left: 5px"  for="form1">Day</label>
-            <mdb-error *ngIf="dInput.invalid && (dInput.dirty || dInput.touched)">Input invalid</mdb-error>
-            <mdb-success *ngIf="dInput.valid && (dInput.dirty || dInput.touched)">Input valid</mdb-success>
-        </div>
-
-         <div class="input-group mb-3 col-sm">
-             <input mdbInput mdbValidate type="number" id="form2" class="form-control" formControlName="monthVal">
-             <label  style="margin-left: 5px"  for="form2">Month</label>
-             <mdb-error *ngIf="mInput.invalid && (mInput.dirty || mInput.touched)">Input invalid</mdb-error>
-             <mdb-success *ngIf="mInput.valid && (mInput.dirty || mInput.touched)">Input valid</mdb-success>
-         </div>
-
-         <div class="input-group mb-3 col-sm">
-          <input mdbInput mdbValidate type="number" id="form3" class="form-control" formControlName="yearVal">
-          <label style="margin-left: 5px" for="form3">Year</label>
-          <mdb-error *ngIf="yInput.invalid && (yInput.dirty || yInput.touched)">Input invalid</mdb-error>
-          <mdb-success *ngIf="yInput.valid && (yInput.dirty || yInput.touched)">Input valid</mdb-success>
       </div>
-
-         </div>
-
-
-        
-      </div>
-    </form>
-  </div>
-
-
-
     </div>
+    <br>
     <br>
     
     <div class="row justify-content-md-center">
@@ -115,6 +84,9 @@
         </button>
       </div>
     </div>
+<br>
+<br>
+
 </div>
 
 
