@@ -101,6 +101,10 @@ export class OrderComponent implements OnInit {
         this.personList.push(person);
         this.awaitingPersonList.splice(0, 1);
       }
+
+      console.log("item sel" + this.currentItem.name)
+      console.log("UNIT sel" + this.currentUnit.name)
+      console.log("AMT sel" + this.currentAmount)
     }
 
     changeValue(id: number, property: string, event: any) {
@@ -118,7 +122,14 @@ export class OrderComponent implements OnInit {
     
     currentItem : Item;
     currentUnit : Unit;
+    currentAmount : Number;
     
+
+    onClickedUnit(){
+      
+      //this.amountSelected = true;
+
+    }
 
     onClickedItem(newValue : Event) {
       console.log(this.currentItem);
@@ -126,7 +137,7 @@ export class OrderComponent implements OnInit {
       this.itemSelected = true;
       this.units = this.currentItem.units
      
-
+      // ... do other stuff here ...
     }
     
 

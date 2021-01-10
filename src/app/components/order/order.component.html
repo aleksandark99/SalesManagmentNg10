@@ -78,7 +78,6 @@
                     
                     
                         <div class="col-lg-4 d-flex justify-content-center col-md-auto my-5">
-                          <!-- *ngIf="itemSelected" -->
                           <select [(ngModel)]="currentUnit" (ngModelChange)="onClickedUnit()" [disabled]="!itemSelected" class="browser-default custom-select">
 
                             <option *ngFor="let unit of units" [ngValue]="unit">{{ unit.name }} ({{unit.abbreviation}})</option>
