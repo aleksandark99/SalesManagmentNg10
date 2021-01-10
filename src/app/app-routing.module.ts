@@ -7,6 +7,8 @@ import { CreatePricelistComponent } from './components/create-pricelist/create-p
 const routes: Routes = [
   {path: '', component: OrderComponent},
   {path: 'createPriceList', component: CreatePricelistComponent},
+  {path: 'home', component: HomeComponent},
+
 
 ];
 

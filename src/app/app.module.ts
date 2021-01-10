@@ -10,7 +10,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CreatePricelistComponent } from './components/create-pricelist/create-pricelist.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { OrderComponent } from './components/order/order.component';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 
 
 
@@ -20,7 +20,7 @@ import { DatePipe } from '@angular/common'
     HomeComponent,
     CreatePricelistComponent,
     NavbarComponent,
-    OrderComponent
+    OrderComponent,
   ],
   imports: [
     BrowserModule,
