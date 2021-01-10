@@ -11,26 +11,17 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class HomeComponent implements OnInit {
 
   constructor() { }
-  options = [
-    { value: '1', label: 'Option 1' },
-    { value: '2', label: 'Option 2' },
-    { value: '3', label: 'Option 3' },
-  ];
 
-  selectControl = new FormControl('');
-  
+  validatingForm: FormGroup;
 
   ngOnInit() {
-    // this.validatingForm = new FormGroup({
-    //   required: new FormControl(null, Validators.required),
-    //   required1: new FormControl(null,Validators.required)
-    // });
-    this.selectControl.valueChanges.subscribe((value: any) => {
-      console.log('Selected value:', value);
-    })
+    this.validatingForm = new FormGroup({
+      required: new FormControl(null, Validators.required),
+      required1: new FormControl(null,[Validators.required, Validators.minLength(1),Validators.maxLength(2),Validators.max(12),Validators.min(1)])
+    });
   }
 
-  // get input() { return this.validatingForm.get('required'); }
-  // get input1() { return this.validatingForm.get('required1'); }
+  get input() { return this.validatingForm.get('required'); }
+  get input1() { return this.validatingForm.get('required1'); }
 
 }

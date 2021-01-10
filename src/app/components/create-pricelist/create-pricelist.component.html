@@ -11,18 +11,35 @@
     </div>
 
     <div class="col-sm">
-      <div class="md-form">
-        <input mdbInput type="text" id="form1" class="form-control" />
+
+
+      <!-- <div class="md-form">
+        <input mdbInput type="number" id="form1" class="form-control" />
         <label for="form1" class="">Price</label>
+      </div> -->
+
+      <form [formGroup]="validatingPrice">
+        <div class="md-form">
+          <div class="form-row mb-4">
+           
+            <div class="input-group mb-3 col-sm">
+              <input mdbInput mdbValidate type="number" id="form0" class="form-control" formControlName="priceVal">
+              <label  style="margin-left: 5px"  for="form0">Price</label>
+              <mdb-error *ngIf="priceInput.invalid && (priceInput.dirty || priceInput.touched)">Input invalid</mdb-error>
+              <mdb-success *ngIf="priceInput.valid && (priceInput.dirty || priceInput.touched)">Input valid</mdb-success>
+          </div>
+        </div>
       </div>
+      </form>
     </div>
 
     <div class="col-sm">
-      <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="hel()"
+      <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="addPriceItem()"
       >
         Add Pricelist item
       </button>
     </div>
+
   </div>
   <div class="row">
     <div class="col col-lg-12">
@@ -42,4 +59,65 @@
       </table>
     </div>
   </div>
+  <br><br>
+  <div class="row">
+    <div class="col-sm">
+
+    <p>Choose a date when priclelist is going to be used</p>
+        </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+
+    <form [formGroup]="validatingForm">
+      <div class="md-form">
+        <div class="form-row mb-4">
+         
+          <div class="input-group mb-3 col-sm">
+            <input mdbInput mdbValidate type="number" id="form1" class="form-control" formControlName="dayVal">
+            <label  style="margin-left: 5px"  for="form1">Day</label>
+            <mdb-error *ngIf="dInput.invalid && (dInput.dirty || dInput.touched)">Input invalid</mdb-error>
+            <mdb-success *ngIf="dInput.valid && (dInput.dirty || dInput.touched)">Input valid</mdb-success>
+        </div>
+
+         <div class="input-group mb-3 col-sm">
+             <input mdbInput mdbValidate type="number" id="form2" class="form-control" formControlName="monthVal">
+             <label  style="margin-left: 5px"  for="form2">Month</label>
+             <mdb-error *ngIf="mInput.invalid && (mInput.dirty || mInput.touched)">Input invalid</mdb-error>
+             <mdb-success *ngIf="mInput.valid && (mInput.dirty || mInput.touched)">Input valid</mdb-success>
+         </div>
+
+         <div class="input-group mb-3 col-sm">
+          <input mdbInput mdbValidate type="number" id="form3" class="form-control" formControlName="yearVal">
+          <label style="margin-left: 5px" for="form3">Year</label>
+          <mdb-error *ngIf="yInput.invalid && (yInput.dirty || yInput.touched)">Input invalid</mdb-error>
+          <mdb-success *ngIf="yInput.valid && (yInput.dirty || yInput.touched)">Input valid</mdb-success>
+      </div>
+
+         </div>
+
+
+        
+      </div>
+    </form>
+  </div>
+
+
+
+    </div>
+    <br>
+    
+    <div class="row">
+      <div class="col-sm">
+        <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="createPricelist()"
+        >
+          Add Pricelist item
+        </button>
+      </div>
+    </div>
 </div>
+
+
+  
+
+
