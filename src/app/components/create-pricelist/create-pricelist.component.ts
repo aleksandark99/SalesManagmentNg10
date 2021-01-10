@@ -41,16 +41,25 @@ export class CreatePricelistComponent implements OnInit {
   selectedArticle:any;
 
   // selectChange() {} za akcije da se dese ako nam je potrebno na select dropdown itema al za sad nije
+getSelarticle(){
+  return this.articles[this.selectedArticle]
+}
 
   addPriceItem(){
-    let article=this.articles[this.selectedArticle];
+    let index=   this.articles.findIndex(x => x.id == this.selectedArticle);
+    let article=this.articles[index];
     let price = this.validatingPrice.get('priceVal').value;
-    // alert(this.selectedArticle)
     // console.log(this.articles[this.selectedArticle].naziv)
-  
+    console.log(article);
+   if (article.id!=0 && price>0.01) {
+    this.elements.push({id: article.id, name: article.name, price: price}) ;
+    this.selectedArticle=0;
+    (index === this.articles.length) ? this.articles.pop() :    this.articles.splice(index,1);
+   }
+  else{
 
-    (article.id!=0 && price>0.01) ? this.elements.push({id: article.id, name: article.name, price: price}) : alert("You must choose article and type in price for it!")
-
+  alert("You must choose article and type in price for it!")
+  }
   };
   //
   // validacija cene

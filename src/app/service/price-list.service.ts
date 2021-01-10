@@ -17,7 +17,10 @@ export class PriceListService {
     return [
       {id:1, name:"artikal jedan"},
       {id:2, name:"cokolada"},
-      {id:3, name:"mleko"}
+      {id:3, name:"mleko"},
+      {id:4, name:"pivo"},
+      {id:5, name:"cigare"}
+
     ];
   }
 }
