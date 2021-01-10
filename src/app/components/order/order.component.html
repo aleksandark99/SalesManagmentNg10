@@ -48,86 +48,6 @@
     </div>
 </div>
 
-<select [(ngModel)]="itemSelected" class="browser-default custom-select">
-
- 
-  <option *ngFor="let item of items" [value]="item.id">{{ item.name }}</option>
-
-</select>
-
-
-<div class="md-form">
-  <mdb-select-2 placeholder="Choose your option" label="Example label" >
-
-    <mdb-select-option *ngFor="let item of items" [value]="item.id">{{ item.name }}</mdb-select-option>
-  </mdb-select-2>
-</div>
-
-
-
-<div class="container">
-
-  <div class="row">
-
-    <div class="col-lg-4 d-flex justify-content-center col-md-auto my-5">
-      <div class="dropdown" mdbDropdown>
-
-        <button [(ngModel)]="itemSelecteds" mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle waves-light"  type="button"
-          mdbWavesEffect>
-          Choose item
-        </button>
-      
-      
-        <div class="dropdown-menu dropdown-primary">
-          <a class="dropdown-item" *ngFor="let item of items" href="#"> {{item.name}} </a>  
-        </div>
-
-        <!-- <select [(ngModel)]="itemSelected" class="browser-default custom-select">
-
- 
-          <option *ngFor="let item of items" [value]="item.id">{{ item.name }}</option>
-        
-        </select> -->
-
-      </div>
-
-    </div>
-    aaaa {{itemSelecteds}}
-
-
-    <div class="col-lg-4 d-flex justify-content-center col-md-auto my-5">
-      <div class="dropdown" mdbDropdown>
-
-        <button mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle waves-light"  type="button"
-          mdbWavesEffect>
-          Choose unit
-        </button>
-      
-      
-        <div class="dropdown-menu dropdown-primary"  *ngIf="itemSelected">
-          <a class="dropdown-item" *ngFor="let item of items" href="#"> {{item.name}} </a>  
-        </div>
-
-      </div>
-    </div>
-
-
-
-    <div class="col-lg-4 d-flex justify-content-center col-md-auto my-5">
-
-        <div class="md-form">
-          <input mdbInput placeholder="Amount" disabled  type="text" id="form58" class="form-control">
-          <label for="form588"></label>
-        </div>
-      
-    </div>
-
- 
-
-</div>
-
-
-
 
 
 
@@ -141,7 +61,41 @@
                 <div class="card-body">
                   <div id="table" class="table-editable">
                     <!-- aa -->
-                 
+                    
+                    <div class="container">
+                    
+                      <div class="row">
+                    
+                        <div class="col-lg-4 d-flex justify-content-center col-md-auto my-5">
+                          <!-- (click)="itemClick()"   [(ngModel)]="itemSelectedId"   -->
+                          <select [(ngModel)]="currentItem" (ngModelChange)="onClickedItem($event)" class="browser-default custom-select">
+
+                            <option *ngFor="let item of items" [ngValue]="item">{{ item.name }}</option>
+
+                          </select> 
+                          
+                        </div>
+                    
+                    
+                        <div class="col-lg-4 d-flex justify-content-center col-md-auto my-5">
+                          <!-- *ngIf="itemSelected" -->
+                          <select [(ngModel)]="currentUnit" (ngModelChange)="onClickedUnit()" [disabled]="!itemSelected" class="browser-default custom-select">
+
+                            <option *ngFor="let unit of units" [ngValue]="unit">{{ unit.name }} ({{unit.abbreviation}})</option>
+                            
+                          </select>
+
+                        </div>
+                    
+
+                        <div class="col-lg-4 d-flex justify-content-center col-md-auto my-5">
+                    
+                          <input mdbInput placeholder="Amount" [disabled]="!amountSelected" type="text" id="form58" class="form-control">
+                          <label for="form588"></label>
+                          
+                        </div> 
+
+                    </div>
                     <!-- vvv -->
                     <span class="table-add float-right mb-3 mr-2">
                       <a class="text-success" (click)="add()">

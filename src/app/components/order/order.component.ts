@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {Item} from "../../interfaces/item"
+import {Unit} from "../../interfaces/unit"
 
 @Component({
   selector: 'app-order',
@@ -10,7 +12,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class OrderComponent implements OnInit {
 
   partnerForm: FormGroup;
-  itemSelecteds : any;
+
 
   constructor() { }
   optionsSelect: Array<any>;
@@ -18,10 +20,7 @@ export class OrderComponent implements OnInit {
   selectControl = new FormControl('');
   
 
-  optionSelect(event: any) {
-    console.log(event);
-    this.selectedOption = event;
-  }
+
 
   ngOnInit(): void {
 
@@ -34,15 +33,9 @@ export class OrderComponent implements OnInit {
      
     });
 
-    this.selectControl.valueChanges.subscribe((value: any) => {
-      console.log('Selected value:', value);
-    })
     
-    this.optionsSelect = [
-      { value: '1', label: 'Option 1' },
-      { value: '2', label: 'Option 2' },
-      { value: '3', label: 'Option 3' },
-    ];
+    
+   
   
   }
 
@@ -107,26 +100,36 @@ export class OrderComponent implements OnInit {
       this.editField = event.target.textContent;
     }
 
-    public items = [{ id: 1, name: 'Mleko', unit : "l" }, {id: 2, name: 'Gvožđe' , unit : "kg"}, {id: 3, name: 'Trake za krečenje', unit : "m" }];  
     
-    
-    public unit : string = ''
+    public items = [{ id: 1, name: 'Mleko', units : [{id: 1, name : "litar", abbreviation : "L"}] }, {id: 2, name: 'Gvožđe' , units : [{id: 1, name : "kilograms", abbreviation : "KG"}]}, {id: 3, name: 'Trake za krečenje', units : [{id: 1, name : "metar", abbreviation : "m"}] }];  
+
+    public units : any;
+  
 
     public itemSelected : boolean = false;
-    public selectedValue : any;
+    public amountSelected : boolean = false;
+    
 
+    itemSelectedId = -1;
+    unitSelectedId = -1;
+    currentItem : Item;
+    currentUnit : Unit;
+    
 
-    clicked(s : string){
-      console.log(s)
+    onClickedUnit(){
+      
+      this.amountSelected = true;
+
     }
 
-    selectChangeHandler( $event : any) {
-      //In my case $event come with a id value
-      console.log("s")
+    onClickedItem(newValue : Event) {
+      console.log(this.currentItem);
+
+      this.itemSelected = true;
+      this.units = this.currentItem.units
+     
+      // ... do other stuff here ...
     }
-
-   
-
     
 
 }//class
