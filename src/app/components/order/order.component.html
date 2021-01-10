@@ -67,7 +67,7 @@
                       <div class="row">
                     
                         <div class="col-lg-4 d-flex justify-content-center col-md-auto my-5">
-                          <!-- (click)="itemClick()"   [(ngModel)]="itemSelectedId"   -->
+                          
                           <select [(ngModel)]="currentItem" (ngModelChange)="onClickedItem($event)" class="browser-default custom-select">
 
                             <option *ngFor="let item of items" [ngValue]="item">{{ item.name }}</option>
@@ -78,6 +78,7 @@
                     
                     
                         <div class="col-lg-4 d-flex justify-content-center col-md-auto my-5">
+                          
                           <select [(ngModel)]="currentUnit" (ngModelChange)="onClickedUnit()" [disabled]="!itemSelected" class="browser-default custom-select">
 
                             <option *ngFor="let unit of units" [ngValue]="unit">{{ unit.name }} ({{unit.abbreviation}})</option>
@@ -89,6 +90,7 @@
 
                         <div class="col-lg-4 d-flex justify-content-center col-md-auto my-5">
                           <form [formGroup]="amountForm" >
+                            
                             <input onkeyup="if(this.value<0){this.value= this.value * -1}"  [(ngModel)]="currentAmount" class="form-control" formControlName="amount" mdbInput mdbValidate placeholder="Amount"  type="number" min="0" id="amount" class="form-control">
                             <label for="amount"></label>
                           </form>
@@ -98,36 +100,48 @@
                     </div>
                     <!-- vvv -->
                     <span class="table-add float-right mb-3 mr-2">
-                      <a class="text-success" (click)="add()">
+                      <a class="text-success"  (click)="add()">
                         <mdb-icon fas icon="plus" size="2x"></mdb-icon>
                       </a>
                     </span>
                     <table class="table table-bordered table-responsive-md table-striped text-center">
                       <tr>
-                        <th class="text-center">Person Name</th>
-                        <th class="text-center">Age</th>
-                        <th class="text-center">Company Name</th>
-                        <th class="text-center">Country</th>
-                        <th class="text-center">City</th>
-                        <th class="text-center">Sort</th>
-                        <th class="text-center">Remove</th>
+                        <th class="text-center">Number</th>
+                        <th class="text-center">Item</th>
+                        <th class="text-center">Item description</th>
+                        <th class="text-center">Unit</th>
+                        <th class="text-center">Unit abbreviation</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center">Unit price</th>
+                        <th class="text-center">Price</th>
                       </tr>
-                      <tr *ngFor="let person of personList; let id = index">
+                     
+                      <tr *ngFor="let item of orderItem; let id = index">  
                         <td>
-                          <span (keyup)="changeValue(id, 'name', $event)" (blur)="updateList(id, 'name', $event)" contenteditable="true">{{person.name}}</span>
+                          <span contenteditable="false">{{id+1}}</span>
                         </td>
                         <td>
-                          <span contenteditable="true" (keyup)="changeValue(id, 'age', $event)" (blur)="updateList(id, 'age', $event)">{{person.age}}</span>
+                          <span contenteditable="false">{{item.name}}</span>
                         </td>
                         <td>
-                          <span contenteditable="true" (keyup)="changeValue(id, 'companyName', $event)" (blur)="updateList(id, 'companyName', $event)">{{person.companyName}}</span>
+                          <span contenteditable="false">{{item.description}}</span>
                         </td>
                         <td>
-                          <span contenteditable="true" (keyup)="changeValue(id, 'country', $event)" (blur)="updateList(id, 'country', $event)">{{person.country}}</span>
+                          <span contenteditable="false">{{item.unit}}</span>
                         </td>
                         <td>
-                          <span contenteditable="true" (keyup)="changeValue(id, 'city', $event)" (blur)="updateList(id, 'city', $event)">{{person.city}}</span>
+                          <span contenteditable="false">{{item.abbreviation}}</span>
                         </td>
+                        <td>
+                          <span contenteditable="false">{{item.amount}}</span>
+                        </td>
+                        <td>
+                          <span contenteditable="false">{{item.unitPrice}}</span>
+                        </td>
+                        <td>
+                          <span contenteditable="false">{{item.amount * item.unitPrice}}</span>
+                        </td>
+                        
                         <td>
                           <span class="table-up">
                             <a class="indigo-text">

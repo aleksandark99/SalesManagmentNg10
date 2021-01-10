@@ -11,6 +11,7 @@ import { CreatePricelistComponent } from './components/create-pricelist/create-p
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { OrderComponent } from './components/order/order.component';
 import { DatePipe } from '@angular/common';
+import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 
@@ -27,7 +28,8 @@ import { DatePipe } from '@angular/common';
     AppRoutingModule,
     MDBBootstrapModule.forRoot(),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
 
   ],
   providers: [DatePipe],
