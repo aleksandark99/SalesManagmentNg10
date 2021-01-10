@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ItemServiceService } from 'src/app/service/item-service.service';
+import { PartnerService } from 'src/app/service/partner.service';
 import {Item} from "../../interfaces/item"
 import {Unit} from "../../interfaces/unit"
 import {ItemDto} from "../../interfaces/item-dto"
+import {Partner} from "../../interfaces/partner"
+
+
 
 @Component({
   selector: 'app-order',
@@ -15,20 +19,24 @@ export class OrderComponent implements OnInit {
 
   partnerForm: FormGroup;
   amountForm: FormGroup;
-  public itemSelected : boolean = false;
+  itemSelected : boolean = false;
 
   orderItem = [] 
   items : Item[] = [];
   units : Unit[] = [];
+  partners : Partner[] = [];
 
   
   currentItem : Item;
   currentUnit : Unit;
+  currentPartner : Partner;
   currentAmount : Number;
   itemSerivce : ItemServiceService;
+  partnerService : PartnerService;
 
-  constructor(public service : ItemServiceService) {
-    this.itemSerivce = service;
+  constructor(public serviceItems : ItemServiceService, public servicePartners : PartnerService ) {
+    this.itemSerivce = serviceItems;
+    this.partnerService = servicePartners;
    }
 
   ngOnInit(): void {
@@ -47,7 +55,7 @@ export class OrderComponent implements OnInit {
 
     this.itemSerivce.getItems().subscribe(data => this.items.push(...data.items));
 
-
+    this.partnerService.getPartners().subscribe(data => this.partners = data);
   }
 
   get name() { return this.partnerForm.get('name'); }
@@ -60,8 +68,25 @@ export class OrderComponent implements OnInit {
 
   clicksub(){
 
-    var x = this.partnerForm.value
-    console.log(x)
+   
+  }
+
+  savePartnerAndCloseModal(modal : any){
+    modal.hide()
+    var partner = <Partner>{}
+    partner.name = this.name.value;
+    partner.phone = this.phone.value;
+    partner.taxNumber = this.taxNo.value;
+    partner.email =  this.phone.value;
+    partner.address = this.address.value;
+    
+    this.partnerService.addPartner(partner).subscribe(data =>{
+      this.currentPartner = data
+      this.partners.push(data)
+    });
+
+
+
   }
 
 
@@ -109,6 +134,18 @@ export class OrderComponent implements OnInit {
       this.units = this.currentItem.units
       this.currentUnit = null;
 
+    }
+
+    onClickedPartner(){
+      console.log("partner clicked")
+    }
+
+    makeOrder(){
+      this.orderItem = []
+      this.currentItem = null;
+      this.currentUnit = null;
+      this.itemSelected = false;
+      
     }
     
 
