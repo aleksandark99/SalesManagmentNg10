@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ItemServiceService } from 'src/app/service/item-service.service';
 import { PartnerService } from 'src/app/service/partner.service';
+import { OrderServiceService } from 'src/app/service/order-service.service';
 import {Item} from "../../interfaces/item"
 import {Unit} from "../../interfaces/unit"
-import {ItemDto} from "../../interfaces/item-dto"
+import {OrderRequest} from "../../interfaces/order-request"
 import {Partner} from "../../interfaces/partner"
 
 
@@ -33,10 +34,12 @@ export class OrderComponent implements OnInit {
   currentAmount : Number;
   itemSerivce : ItemServiceService;
   partnerService : PartnerService;
+  orderService : OrderServiceService;
 
-  constructor(public serviceItems : ItemServiceService, public servicePartners : PartnerService ) {
+  constructor(public serviceItems : ItemServiceService, public servicePartners : PartnerService, serviceOrder : OrderServiceService ) {
     this.itemSerivce = serviceItems;
     this.partnerService = servicePartners;
+    this.orderService = serviceOrder;
    }
 
   ngOnInit(): void {
@@ -143,16 +146,24 @@ export class OrderComponent implements OnInit {
       if (this.currentPartner == null){
         alert("Please select Company before placing your Order!")
       } else {
+        var orderRequest : OrderRequest[] = [];
+     
+        this.orderItem.forEach(item => orderRequest.push({"itemId" : item.idItem, 
+                                                          "unitId" : item.idUnit,
+                                                          "amount" : item.amount, 
+                                                          "companyId" : this.currentPartner.id }));
+
         this.orderItem = []
         this.currentItem = null;
         this.currentUnit = null;
         this.itemSelected = false;
 
-        //create object for sending an Order
-        //api call
-        console.log("sending order...")
 
-        
+        console.log("sending order...")
+        //  this.partnerService.getPartners().subscribe(data => this.partners = data);
+        this.orderService.makeOrder(orderRequest).subscribe(data => console.log(data));
+
+
 
       }
 
