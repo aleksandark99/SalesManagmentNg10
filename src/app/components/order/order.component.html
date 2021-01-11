@@ -116,17 +116,18 @@
               class="form-control mb-4" [value] = "currentPartner.phone">
                
              <!-- Email -->
-              <input type="email" disabled  mdbInput
+              <input type="text" disabled  mdbInput
                class="form-control mb-4" [value] = "currentPartner.email">
               
              <!-- Tax number -->
-             <input type="email" disabled  mdbInput
+             <input type="text" disabled  mdbInput
                class="form-control mb-4" [value] = "currentPartner.taxNumber">
             </ng-container>
               
 
             <ng-template #elseBlock>
-              <input hidden type="text" disabled   mdbInput
+
+              <input  type="text" disabled   mdbInput
               class="form-control mb-4" placeholder="Name" >
    
                   <!-- Address -->
@@ -138,11 +139,11 @@
               class="form-control mb-4" placeholder="Phone">
                
              <!-- Email -->
-              <input type="email" disabled  mdbInput
+              <input type="text" disabled  mdbInput
                class="form-control mb-4" placeholder="E-mail">
               
              <!-- Tax number -->
-             <input type="email" disabled  mdbInput
+             <input type="text" disabled  mdbInput
                class="form-control mb-4" placeholder="Tax number">
             </ng-template>
             
