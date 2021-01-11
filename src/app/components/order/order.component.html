@@ -103,31 +103,51 @@
             <p class="h4 mb-4">Bussiness Partner</p>
           
             <!-- Name -->
-            <div [ngModel]="currentPartner" *ngIf="currentPartner; else elseBlock">
-              <input type="text"    mdbInput disabled
-              class="form-control mb-4" [value]="currentPartner.name"  >
-            </div>
+            <ng-container *ngIf="currentPartner; else elseBlock">
+              
+              <input type="text" disabled mdbInput
+               class="form-control mb-4" [value] = "currentPartner.name">
+
+              <input type="text"  disabled mdbInput
+               class="form-control mb-4" [value] = "currentPartner.address">
+               
+             <!-- Phone -->
+              <input type="text" disabled  mdbInput
+              class="form-control mb-4" [value] = "currentPartner.phone">
+               
+             <!-- Email -->
+              <input type="email" disabled  mdbInput
+               class="form-control mb-4" [value] = "currentPartner.email">
+              
+             <!-- Tax number -->
+             <input type="email" disabled  mdbInput
+               class="form-control mb-4" [value] = "currentPartner.taxNumber">
+            </ng-container>
+              
+
             <ng-template #elseBlock>
-              <input type="text" disabled   mdbInput
+              <input hidden type="text" disabled   mdbInput
               class="form-control mb-4" placeholder="Name" >
+   
+                  <!-- Address -->
+              <input type="text"  disabled mdbInput
+               class="form-control mb-4" placeholder="Address">
+               
+             <!-- Phone -->
+              <input type="text" disabled  mdbInput
+              class="form-control mb-4" placeholder="Phone">
+               
+             <!-- Email -->
+              <input type="email" disabled  mdbInput
+               class="form-control mb-4" placeholder="E-mail">
+              
+             <!-- Tax number -->
+             <input type="email" disabled  mdbInput
+               class="form-control mb-4" placeholder="Tax number">
             </ng-template>
             
                      
-            <!-- Address -->
-            <input type="text" disabled mdbInput
-              class="form-control mb-4" placeholder="Address">
-              
-            <!-- Phone -->
-            <input type="text" disabled  mdbInput
-             class="form-control mb-4" placeholder="Phone">
-              
-            <!-- Email -->
-            <input type="email" disabled  mdbInput
-              class="form-control mb-4" placeholder="E-mail">
-             
-            <!-- Tax number -->
-            <input type="email" disabled  mdbInput
-              class="form-control mb-4" placeholder="Tax number">
+           
               
           </form>
 

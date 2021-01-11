@@ -12,7 +12,7 @@ import {Partner} from "../../interfaces/partner"
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
-  styles: [ '.disableLink {pointer-events: none, cursor: default}'
+  styles: [ 
   ]
 })
 export class OrderComponent implements OnInit {
@@ -85,8 +85,6 @@ export class OrderComponent implements OnInit {
       this.partners.push(data)
     });
 
-
-
   }
 
 
@@ -136,15 +134,29 @@ export class OrderComponent implements OnInit {
 
     }
 
-    onClickedPartner(){
-      console.log("partner clicked")
+    onClickedPartner(){ 
+  
     }
 
     makeOrder(){
-      this.orderItem = []
-      this.currentItem = null;
-      this.currentUnit = null;
-      this.itemSelected = false;
+
+      if (this.currentPartner == null){
+        alert("Please select Company before placing your Order!")
+      } else {
+        this.orderItem = []
+        this.currentItem = null;
+        this.currentUnit = null;
+        this.itemSelected = false;
+
+        //create object for sending an Order
+        //api call
+        console.log("sending order...")
+
+      }
+
+      
+
+
       
     }
     
