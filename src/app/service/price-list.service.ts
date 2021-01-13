@@ -15,11 +15,10 @@ export class PriceListService {
   //ova metoda ce dobavljati artikle sa backenda posle za sad staticki podaci za testiranje
   getArticles(){
     return [
-      {id:1, name:"artikal jedan"},
-      {id:2, name:"cokolada"},
-      {id:3, name:"mleko"},
-      {id:4, name:"pivo"},
-      {id:5, name:"cigare"}
+      {id:2, name:"cokolada", type:"comodity",price:null},
+      {id:3, name:"mleko", type:"comodity",price:null},
+      {id:4, name:"pivo", type:"comodity",price:null},
+      {id:5, name:"cigare", type:"comodity",price:null}
 
     ];
   }

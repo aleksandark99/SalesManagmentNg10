@@ -18,26 +18,16 @@ export class CreatePricelistComponent implements OnInit {
     this.articles=this.plistService.getArticles();
     this.articles.unshift({id:0, name:"Open this select menu"})
     this.selectedArticle=0;// da "Open this select menu" bude selektovano po defaultu
-    // za validaciju
-     this.validatingForm = new FormGroup({
-      monthVal: new FormControl(null,[Validators.required,Validators.min(1),Validators.max(12)]),
-      dayVal: new FormControl(null,[Validators.required,Validators.min(1),Validators.max(31)]),// napraviti da je max 28/29/30/31 u zavisnosi od godine
-      yearVal: new FormControl(null,[Validators.required,Validators.min(2021),Validators.max(2021+5)])// umesto 2021 staviti current year
-    });
     this.validatingPrice = new FormGroup({
       priceVal: new FormControl(null,[Validators.required,Validators.min(0.01)]),
     });
 
   }
-  articles: any =[]
+  articles: any =[];
 
-  elements: any = [
-    // {id: 1, name: 'mleko', price: '120'},
-    // {id: 2, name: 'cokolada', price: '200'},
-    // {id: 3, name: 'pivo', price: '300'},
-  ];
+  elements: any = [];
 
-  headElements = ['Id','Article name', 'article price'];
+  headElements = ['Id','Article name', 'article price','type'];
 
   selectedArticle:any;
   selectedDate:Date;
@@ -51,12 +41,15 @@ getSelarticle(){
     let index=   this.articles.findIndex(x => x.id == this.selectedArticle);
     let article=this.articles[index];
     let price = this.validatingPrice.get('priceVal').value;
-    // console.log(this.articles[this.selectedArticle].naziv)
     console.log(article);
-   if (article!=null && price>0.01) {
-    this.elements.push({id: article.id, name: article.name, price: price}) ;
+   if (article!=null && price>0.01 &&index!=0) {
+    // this.elements.push({id: article.id, name: article.name, price: price,type: article.type}) ;
+    article.price=price;
+    this.elements.push(article)
     this.selectedArticle=0;
     (index === this.articles.length) ? this.articles.pop() :    this.articles.splice(index,1);
+    this.validatingPrice.reset();
+
    }
   else{
 
@@ -69,16 +62,9 @@ getSelarticle(){
   get priceInput() { return this.validatingPrice.get('priceVal'); }  // mozemo da proverimo if input1 is valid za validaciju pre slanja na back
 
   // validacija datuma 
-  validatingForm: FormGroup;
-  get dInput() { return this.validatingForm.get('dayVal'); }  // mozemo da proverimo if input1 is valid za validaciju pre slanja na back
-  get mInput() { return this.validatingForm.get('monthVal'); }  // mozemo da proverimo if input1 is valid za validaciju pre slanja na back
-  get yInput() { return this.validatingForm.get('yearVal'); }  // mozemo da proverimo if input1 is valid za validaciju pre slanja na back
-  
+
   isDateValid(){
-    // let isDayhValid:boolean =this.validatingForm.get('dayVal').valid;
-    // let isMonthValid:boolean =this.validatingForm.get('monthVal').valid;
-    // let isYearValid:boolean =this.validatingForm.get('yearVal').valid;    
-    // return    (isDayhValid && isMonthValid && isYearValid ); 
+
     let seldate=new Date(this.selectedDate);
     var isValid:boolean;
 
