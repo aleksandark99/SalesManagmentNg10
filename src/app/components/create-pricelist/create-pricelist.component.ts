@@ -15,9 +15,18 @@ export class CreatePricelistComponent implements OnInit {
   constructor(private plistService:PriceListService) { }
 
   ngOnInit(): void {
-    this.articles=this.plistService.getArticles();
-    this.articles.unshift({id:0, name:"Open this select menu"})
-    this.selectedArticle=0;// da "Open this select menu" bude selektovano po defaultu
+    this.plistService.getArticles0();
+
+    this.plistService.getArticles1().subscribe(data=>{
+      this.articles=data;
+
+      this.articles.unshift({id:0, name:"Open this select menu"})
+      this.selectedArticle=0;// da "Open this select menu" bude selektovano po defaultu
+
+    });
+    // this.articles=this.plistService.getArticles1();
+
+
     this.validatingPrice = new FormGroup({
       priceVal: new FormControl(null,[Validators.required,Validators.min(0.01)]),
     });
