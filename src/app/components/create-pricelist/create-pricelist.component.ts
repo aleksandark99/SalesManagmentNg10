@@ -38,6 +38,7 @@ export class CreatePricelistComponent implements OnInit {
 
   headElements = ['Id','Article name', 'article price','type'];
 
+
   selectedArticle:any;
   selectedDate:Date;
 
