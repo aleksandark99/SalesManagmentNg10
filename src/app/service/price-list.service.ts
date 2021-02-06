@@ -1,26 +1,49 @@
 import { Injectable } from '@angular/core';
+import {HttpClient, HttpClientModule} from '@angular/common/http'
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PriceListService {
 
-  constructor() { }
+
+  constructor(private http : HttpClient) { }
+
+    getArticles1(){
+      let url = 'http://localhost:8080/comodities/getAll';
+
+      return this.http.get(url)
+    }
+
+    async  getArticles0(){
+      let url = 'http://localhost:8080/comodities/getAll';
+
+      console.warn("This is what you get")
+      // console.log( this.http.get(url).toPromise().then())
+      await this.http.get(url).toPromise().then(data=>{
+        console.warn("aaaaaaaa"+data)
+      })
+      console.warn("This is what you get")
+
+    }
 
 
-  test(){
-    alert("testservice works")
-  }
+    
+  
 
   //ova metoda ce dobavljati artikle sa backenda posle za sad staticki podaci za testiranje
   getArticles(){
     return [
-      {id:1, name:"artikal jedan"},
-      {id:2, name:"cokolada"},
-      {id:3, name:"mleko"},
-      {id:4, name:"pivo"},
-      {id:5, name:"cigare"}
+      {id:2, name:"cokolada", type:"comodity",price:null},
+      {id:3, name:"mleko", type:"comodity",price:null},
+      {id:4, name:"pivo", type:"comodity",price:null},
+      {id:5, name:"cigare", type:"comodity",price:null}
 
     ];
   }
+
 }
+
+
+  
