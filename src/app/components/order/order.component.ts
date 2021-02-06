@@ -125,10 +125,13 @@ export class OrderComponent implements OnInit {
  
     console.log(x.getTime())
 
+    //praznimo sve liste ako se promeni datum 
     this.currentItem = null;
     this.items = [];
     this.units = [];
+    this.orderItem = [];
 
+    //ucitavanje novi podataka sa servera
     this.servicePricelistItems.getPricelistItems(x.getTime().toString()).subscribe(data => { 
       this.items = data.items;
     } );
@@ -144,7 +147,11 @@ export class OrderComponent implements OnInit {
 
   add() {
 
-    
+    if (this.selectedDate != null && this.currentItem != null && this.currentUnit){
+
+      var tempItemForOrder = {}
+
+    } 
 
   }
 
