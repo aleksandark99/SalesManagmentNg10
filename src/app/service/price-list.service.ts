@@ -28,7 +28,12 @@ export class PriceListService {
 
     }
 
-
+    async createPriceList(pricelist :any){
+      let url = 'http://localhost:8080/priceList/create';
+      await this.http.post(url,pricelist).toPromise().then(data=>{
+        alert(data);
+      })
+    }
     
   
 

@@ -87,9 +87,21 @@ getSelarticle(){
 
   }
   createPricelist(){
-    (this.elements.length>0 && this.elements!=null &&this.isDateValid() ) ? console.log("send to backend to be created") : alert("Data not valid");
+    // (this.elements.length>0 && this.elements!=null &&this.isDateValid() ) ? console.log("send to backend to be created") : alert("Data not valid");
 
-    console.log(this.elements)
+    let date=      new Date(this.selectedDate).toString()
+    let priceListItems = this.elements;
+    let priceListToSend={
+      date,
+      priceListItems
+    };
+
+    (this.elements.length>0 && this.elements!=null &&this.isDateValid() ) ? this.plistService.createPriceList(priceListToSend) : alert("Data not valid");
+
+
+
+    console.log(priceListToSend)
+    console.log(new Date(this.selectedDate).toISOString())
   }
 
   removeItem(id){
@@ -107,5 +119,7 @@ getSelarticle(){
       (a.id < b.id ) ? val=-1 : val=1;
     return val;
   }
+
+
 
 }
