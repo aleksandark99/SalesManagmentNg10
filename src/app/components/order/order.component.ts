@@ -5,10 +5,10 @@ import {Partner} from "../../interfaces_responses/partner"
 import {PriceListItemsDto} from "../../interfaces_responses/pricelistitemsdto"
 import { Item } from 'src/app/interfaces_responses/item';
 import { FetchPricelistItemsService } from 'src/app/service/fetch-pricelist-items.service';
-import { Commodity } from 'src/app/interfaces_responses/commodity';
-import { build$ } from 'protractor/built/element';
-import { Pricelist } from 'src/app/interfaces_responses/pricelist';
-import { runInThisContext } from 'vm';
+import { OrderRequest } from 'src/app/interfaces_requests/order-request';
+import { OrderItem } from 'src/app/interfaces_requests/order-item';
+import { OrderServiceService } from 'src/app/service/order-service.service';
+
 
 
 
@@ -24,13 +24,16 @@ export class OrderComponent implements OnInit {
   amountForm: FormGroup;
   
   //redovi iz tabele, podaci koji idu u Porudzbenicu
-  orderItem = [] 
+  orderItems = [] 
 
   //postojeci poslovni partneri iz baze
   partners : Partner[] = [];
   
   //lista Item-a, koji u suštini predstavljaju listu RobaIliUsluga
   items : Item[] = [];
+
+  //ukupna cena svih stavki sa pripadajucim porezima
+  orderTotal : Number;
 
   //lista jedinica za jednu RobuIliUslugu
   units : PriceListItemsDto[] = [];
@@ -39,7 +42,7 @@ export class OrderComponent implements OnInit {
   currentPartner : Partner;
 
   //kolicina za stavku prilikom kreiranja novog reda (stavke) u tabeli
-  currentAmount : Number;
+  currentAmount = 0;
 
   //predstavlja trenutno selektovanu RobuIliUslugu (Commodity) [ovaj objekat uključuje i listu jednica (Unita-) u kojima se moze kupiti]
   currentItem : Item;
@@ -56,9 +59,13 @@ export class OrderComponent implements OnInit {
   //servis za GET-ovanje cenovnika (sa pripadajucim Commodity-ima i njihovim jednicama)
   pricelistItemsService : FetchPricelistItemsService;
 
-  constructor( public servicePartners : PartnerService, public servicePricelistItems : FetchPricelistItemsService) {
+  //servis za POST-ovanje nove Porudzbenice na server
+  invoiceOrderService : OrderServiceService;
+
+  constructor( public servicePartners : PartnerService, public servicePricelistItems : FetchPricelistItemsService, public serviceInvoiceOrder : OrderServiceService) {
     this.partnerService = servicePartners;
     this.pricelistItemsService = servicePricelistItems;
+    this.invoiceOrderService = serviceInvoiceOrder;
    }
 
   ngOnInit(): void {
@@ -117,48 +124,77 @@ export class OrderComponent implements OnInit {
     return isValid ? null : { 'whitespace': true };
   }
 
+  //every calendar date change resets current values
   onClickCalendar(){
-
-
     let x = new Date(this.selectedDate);
-
- 
+    
+    //dummy print
     console.log(x.getTime())
 
     //praznimo sve liste ako se promeni datum 
     this.currentItem = null;
     this.items = [];
     this.units = [];
-    this.orderItem = [];
+
+    this.orderItems = [];
+
+    this.orderTotal = 0;
+
 
     //ucitavanje novi podataka sa servera
     this.servicePricelistItems.getPricelistItems(x.getTime().toString()).subscribe(data => { 
       this.items = data.items;
     } );
 
-
-
   }
 
-
+  //removing from orderItem's list & decrementing orderTotal
   remove(id: any) {
-      this.orderItem.splice(id, 1);
+      var item = this.orderItems[id];
+      this.orderItems.splice(id, 1);
+      this.orderTotal = this.orderTotal.valueOf() - (item.amount * item.unitPrice)
+     
   }
 
   add() {
 
-    if (this.selectedDate != null && this.currentItem != null && this.currentUnit){
+    if (this.selectedDate != null && this.currentItem != null && this.currentUnit != null && this.currentAmount >= 0) {
+      
+      console.log("poooooooorez za commodity: " + this.currentItem.commodity.taxRate)
 
-      var tempItemForOrder = {}
+      let basis =  this.currentAmount.valueOf() * this.currentUnit.price.valueOf();
+      let taxRate = this.currentItem.commodity.taxRate.valueOf()
+      let taxAmt = basis * (taxRate / 100);
 
-    } 
+      let tempOrderItem = {
+
+        commodityId : this.currentItem.commodity.commodityId,
+        tax : this.currentItem.commodity.taxRate,
+        name : this.currentItem.commodity.commodityName,
+        description : this.currentItem.commodity.description,
+        unit : this.currentUnit.unitLongName,
+        abbreviation : this.currentUnit.unitShortName,
+        amount : this.currentAmount,
+        unitPrice : this.currentUnit.price,
+        taxAmount : taxAmt
+
+      }
+
+      console.log("pooorez u temp obj: " + tempOrderItem.taxAmount.valueOf())
+
+      this.orderTotal = this.orderTotal.valueOf() + (tempOrderItem.amount * tempOrderItem.unitPrice)
+      this.orderItems.push(tempOrderItem)
+
+     
+
+    }
+    
 
   }
 
 
   onClickedUnit(){
       console.log("clicked unit")
-
   }
 
   //setuje listu jedinica za odredjeni commodity
@@ -171,10 +207,52 @@ export class OrderComponent implements OnInit {
   }
 
   makeOrder(){
+    //var newOrder = <OrderRequest>{};
+    var newOrder = {orderItem : [], bussinesPartnerId : -1, totalBasis : 0, totalTax : 0, total : 0, totalWithoutTax : 0, totalWithTax  : 0};
+   
 
-    
+        var totalBas = 0;
+        var totalT = 0;
+        //var totalSum = 0;
 
-      
+        this.orderItems.forEach(i => {
+
+          var tempOrderItem = <OrderItem>{};
+
+          tempOrderItem.commodityId = i.commodityId;
+          tempOrderItem.amount = i.amount;
+          tempOrderItem.unitPrice = i.unitPrice;
+          tempOrderItem.basis = tempOrderItem.amount.valueOf() * tempOrderItem.unitPrice.valueOf();
+          tempOrderItem.taxPercentage = i.tax;
+          tempOrderItem.taxAmount = i.taxAmount;
+          tempOrderItem.total = tempOrderItem.basis.valueOf() + tempOrderItem.taxAmount.valueOf();
+
+          totalBas += tempOrderItem.basis.valueOf();
+          totalT += tempOrderItem.taxAmount.valueOf();
+
+          newOrder.orderItem.push(tempOrderItem);
+        })
+
+    newOrder["bussinesPartnerId"] = this.currentPartner.id.valueOf();
+    newOrder["totalBasis"] = totalBas;
+    newOrder["totalTax"] = totalT;
+    newOrder["totalWithoutTax"] = this.orderTotal.valueOf();
+    newOrder["total"] = newOrder["totalTax"] + newOrder["totalBasis"];
+
+
+    //console.log(newOrder)
+
+    this.invoiceOrderService.makeOrder(newOrder).subscribe(data => {
+      if (!data.error || data.code != 200){
+        alert("Order succesfully created")
+      } else {
+        alert("Order is not created")
+      }
+
+      this.orderTotal = 0;
+      this.orderItems = [];
+
+    })
 
 
       

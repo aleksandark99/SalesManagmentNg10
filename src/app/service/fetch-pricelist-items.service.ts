@@ -21,7 +21,7 @@ export class FetchPricelistItemsService {
   //servis za fetch-ovanje CommodityDto-ova sa njihovim Unit-ma i Porezima 
    getPricelistItems(date : string) : Observable<Pricelist>{
 
-    return  this.httpClient.get<Pricelist>(FetchPricelistItemsService.baseUrl+"invoice/pricelistItems/" + date);
+    return  this.httpClient.get<Pricelist>(FetchPricelistItemsService.baseUrl+"priceList/pricelistItems/" + date);
   
   }
 
