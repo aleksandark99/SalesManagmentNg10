@@ -8,6 +8,7 @@ const routes: Routes = [
   {path: '', component: OrderComponent},
   {path: 'createPriceList', component: CreatePricelistComponent},
   {path: 'home', component: HomeComponent},
+ //{path: 'cenovnik', component: },
 
 
 ];

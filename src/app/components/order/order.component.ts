@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ItemServiceService } from 'src/app/service/item-service.service';
 import { PartnerService } from 'src/app/service/partner.service';
-import { OrderServiceService } from 'src/app/service/order-service.service';
-import {Item} from "../../interfaces/item"
-import {Unit} from "../../interfaces/unit"
-import {OrderRequest} from "../../interfaces/order-request"
-import {Partner} from "../../interfaces/partner"
+import {Partner} from "../../interfaces_responses/partner"
+import {PriceListItemsDto} from "../../interfaces_responses/pricelistitemsdto"
+import { Item } from 'src/app/interfaces_responses/item';
+import { FetchPricelistItemsService } from 'src/app/service/fetch-pricelist-items.service';
+import { Commodity } from 'src/app/interfaces_responses/commodity';
+import { build$ } from 'protractor/built/element';
+import { Pricelist } from 'src/app/interfaces_responses/pricelist';
+import { runInThisContext } from 'vm';
 
 
 
@@ -20,26 +22,43 @@ export class OrderComponent implements OnInit {
 
   partnerForm: FormGroup;
   amountForm: FormGroup;
-  itemSelected : boolean = false;
-
-  orderItem = [] 
-  items : Item[] = [];
-  units : Unit[] = [];
-  partners : Partner[] = [];
-
   
-  currentItem : Item;
-  currentUnit : Unit;
-  currentPartner : Partner;
-  currentAmount : Number;
-  itemSerivce : ItemServiceService;
-  partnerService : PartnerService;
-  orderService : OrderServiceService;
+  //redovi iz tabele, podaci koji idu u Porudzbenicu
+  orderItem = [] 
 
-  constructor(public serviceItems : ItemServiceService, public servicePartners : PartnerService, serviceOrder : OrderServiceService ) {
-    this.itemSerivce = serviceItems;
+  //postojeci poslovni partneri iz baze
+  partners : Partner[] = [];
+  
+  //lista Item-a, koji u suštini predstavljaju listu RobaIliUsluga
+  items : Item[] = [];
+
+  //lista jedinica za jednu RobuIliUslugu
+  units : PriceListItemsDto[] = [];
+  
+  //izabrani BussinesPartner za koga se kreira porudzbenica
+  currentPartner : Partner;
+
+  //kolicina za stavku prilikom kreiranja novog reda (stavke) u tabeli
+  currentAmount : Number;
+
+  //predstavlja trenutno selektovanu RobuIliUslugu (Commodity) [ovaj objekat uključuje i listu jednica (Unita-) u kojima se moze kupiti]
+  currentItem : Item;
+  
+  //trenutno selektovana jednica (Unit) za izabranu RobuIliUslugu (Commodity)
+  currentUnit : PriceListItemsDto;
+
+  //datum na kalendaru, od ovog datuma zavisi koje sve Commodity-je tj. RobeIliUsluge (zajedno sa njihovim jedinicama u kojima se sve prodaju) koje server vraca
+  selectedDate : Date;
+
+  //servis koji vraca/dodaje BussinesPartnere
+  partnerService : PartnerService;
+
+  //servis za GET-ovanje cenovnika (sa pripadajucim Commodity-ima i njihovim jednicama)
+  pricelistItemsService : FetchPricelistItemsService;
+
+  constructor( public servicePartners : PartnerService, public servicePricelistItems : FetchPricelistItemsService) {
     this.partnerService = servicePartners;
-    this.orderService = serviceOrder;
+    this.pricelistItemsService = servicePricelistItems;
    }
 
   ngOnInit(): void {
@@ -56,9 +75,9 @@ export class OrderComponent implements OnInit {
       amount: new  FormControl(null,  Validators.compose([Validators.required ]))
     });
 
-    this.itemSerivce.getItems().subscribe(data => this.items.push(...data.items));
 
     this.partnerService.getPartners().subscribe(data => this.partners = data);
+   
   }
 
   get name() { return this.partnerForm.get('name'); }
@@ -98,80 +117,68 @@ export class OrderComponent implements OnInit {
     return isValid ? null : { 'whitespace': true };
   }
 
+  onClickCalendar(){
 
-    remove(id: any) {
+
+    let x = new Date(this.selectedDate);
+
+ 
+    console.log(x.getTime())
+
+    //praznimo sve liste ako se promeni datum 
+    this.currentItem = null;
+    this.items = [];
+    this.units = [];
+    this.orderItem = [];
+
+    //ucitavanje novi podataka sa servera
+    this.servicePricelistItems.getPricelistItems(x.getTime().toString()).subscribe(data => { 
+      this.items = data.items;
+    } );
+
+
+
+  }
+
+
+  remove(id: any) {
       this.orderItem.splice(id, 1);
-    }
+  }
 
-    add() {
+  add() {
 
-      if (this.itemSelected && this.currentUnit != null && this.amount.value >= 0){
-        
-        var tempItemObj = {
-            id: this.currentItem.id,
-            idItem : this.currentItem.id, 
-            idUnit : this.currentUnit.id,
-            name : this.currentItem.name,
-            description : this.currentItem.description,
-            unit : this.currentUnit.name,
-            abbreviation : this.currentUnit.abbreviation,
-            amount : this.amount.value,
-            unitPrice : this.currentItem.unitPrice
-        }
-        this.orderItem.push(tempItemObj)           
-      }
+    if (this.selectedDate != null && this.currentItem != null && this.currentUnit){
 
-    }
+      var tempItemForOrder = {}
+
+    } 
+
+  }
 
 
-    onClickedUnit(){
-      
+  onClickedUnit(){
+      console.log("clicked unit")
 
-    }
+  }
 
-    onClickedItem(newValue : Event) {
+  //setuje listu jedinica za odredjeni commodity
+  onClickedCommodity() {
+      this.units = this.currentItem.priceListItemsDto;
+  }
 
-      this.itemSelected = true;
-      this.units = this.currentItem.units
-      this.currentUnit = null;
-
-    }
-
-    onClickedPartner(){ 
+  onClickedPartner(){ 
   
-    }
+  }
 
-    makeOrder(){
+  makeOrder(){
 
-      if (this.currentPartner == null){
-        alert("Please select Company before placing your Order!")
-      } else {
-        var orderRequest : OrderRequest[] = [];
-     
-        this.orderItem.forEach(item => orderRequest.push({"itemId" : item.idItem, 
-                                                          "unitId" : item.idUnit,
-                                                          "amount" : item.amount, 
-                                                          "companyId" : this.currentPartner.id }));
-
-        this.orderItem = []
-        this.currentItem = null;
-        this.currentUnit = null;
-        this.itemSelected = false;
-
-
-        console.log("sending order...")
-        //  this.partnerService.getPartners().subscribe(data => this.partners = data);
-        this.orderService.makeOrder(orderRequest).subscribe(data => console.log(data));
-
-
-
-      }
+    
 
       
 
 
       
-    }
+  }
     
 
 }//class
