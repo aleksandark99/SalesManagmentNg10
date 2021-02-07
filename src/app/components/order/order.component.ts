@@ -5,9 +5,8 @@ import {Partner} from "../../interfaces_responses/partner"
 import {PriceListItemsDto} from "../../interfaces_responses/pricelistitemsdto"
 import { Item } from 'src/app/interfaces_responses/item';
 import { FetchPricelistItemsService } from 'src/app/service/fetch-pricelist-items.service';
-import { OrderRequest } from 'src/app/interfaces_requests/order-request';
-import { OrderItem } from 'src/app/interfaces_requests/order-item';
 import { OrderServiceService } from 'src/app/service/order-service.service';
+import { OrderItem } from 'src/app/interfaces_requests/order-item';
 
 
 
@@ -207,13 +206,11 @@ export class OrderComponent implements OnInit {
   }
 
   makeOrder(){
-    //var newOrder = <OrderRequest>{};
     var newOrder = {orderItem : [], bussinesPartnerId : -1, totalBasis : 0, totalTax : 0, total : 0, totalWithoutTax : 0, totalWithTax  : 0};
    
 
         var totalBas = 0;
         var totalT = 0;
-        //var totalSum = 0;
 
         this.orderItems.forEach(i => {
 

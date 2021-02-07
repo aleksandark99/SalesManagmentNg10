@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
-import { Item } from '../interfaces_responses/item';
 import { Pricelist } from '../interfaces_responses/pricelist';
 
 
