@@ -143,6 +143,7 @@ export class OrderComponent implements OnInit {
     //ucitavanje novi podataka sa servera
     this.servicePricelistItems.getPricelistItems(x.getTime().toString()).subscribe(data => { 
       this.items = data.items;
+      console.log(data.items)
     } );
 
   }
