@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {PriceListService}   from '../../service/price-list.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
-
+import {SharedServiceService} from '../../service/shared-service.service';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-pricelist',
@@ -11,12 +13,30 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   ]
 })
 export class CreatePricelistComponent implements OnInit {
+  editField: string;
+  private state$: Observable<object>;
+  private makingCopy:boolean;
+  private pListToCopy:any;
+  constructor(private plistService:PriceListService,private sharedService: SharedServiceService,public router: Router, public activatedRoute: ActivatedRoute) { 
+    console.warn(this.router.getCurrentNavigation().extras.state)
+    this.pListToCopy=this.router.getCurrentNavigation().extras.state;
+    if(this.router.getCurrentNavigation().extras.state!=null){
+      console.warn("make copy")
+      this.makingCopy=false;
+      this.pListToCopy=this.router.getCurrentNavigation().extras.state;
+    }else{
+      console.warn("Make new one")
+      this.makingCopy=true;
+    }
 
-  constructor(private plistService:PriceListService) { }
+  }
 
   ngOnInit(): void {
-    this.plistService.getArticles0();
 
+    this.validatingPrice = new FormGroup({
+      priceVal: new FormControl(null,[Validators.required,Validators.min(0.01)]),
+    });
+    if(this.makingCopy){
     this.plistService.getArticles1().subscribe(data=>{
       this.articles=data;
 
@@ -27,10 +47,22 @@ export class CreatePricelistComponent implements OnInit {
     // this.articles=this.plistService.getArticles1();
 
 
-    this.validatingPrice = new FormGroup({
-      priceVal: new FormControl(null,[Validators.required,Validators.min(0.01)]),
-    });
+  }else{
+    console.log("In mode for making copy")
+    console.log(this.pListToCopy)
+    let d;
+    this.plistService.makeCopy(this.pListToCopy).subscribe(data=>{
+      d=data;
+      console.warn(d.commodityDtos)
+      
+      this.articles=d.commodityDtos;
 
+      this.articles.unshift({id:0, name:"Open this select menu"})
+      this.selectedArticle=0;// da "Open this select menu" bude selektovano po defaultu
+      this.elements=d.priceListItems;
+
+    });
+  }
   }
   articles: any =[];
 
@@ -48,6 +80,8 @@ getSelarticle(){
 }
 
   addPriceItem(){
+    
+    this.sharedService.changeIncrease(true);
     let index=   this.articles.findIndex(x => x.id == this.selectedArticle);
     let article=this.articles[index];
     let price = this.validatingPrice.get('priceVal').value;
@@ -121,6 +155,27 @@ getSelarticle(){
     return val;
   }
 
+  changeValue(id: number, property: string, event: any) {
 
+    if(!isNaN(event.target.textContent)){
+      console.warn(event.target.textContent)
+      this.editField = event.target.textContent;
 
+    }else{
+      console.warn("error")
+      event.target.textContent=0;
+    }
+    
+  }
+  updateList(id: number, property: string, event: any) {
+
+    // if(!isNaN(event.target.textContent)){
+    //   const editField = event.target.textContent;
+    //    this.elements[id][property] = editField;
+
+    // }else{
+    //   console.warn("error")
+    
+    // }
+  }
 }

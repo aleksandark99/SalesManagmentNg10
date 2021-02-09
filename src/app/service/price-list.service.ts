@@ -8,6 +8,7 @@ export class PriceListService {
 
 
   constructor(private http : HttpClient) { }
+  
 
     getArticles1(){
       let url = 'http://localhost:8080/comodities/getAll';
@@ -29,9 +30,21 @@ export class PriceListService {
 
     async createPriceList(pricelist :any){
       let url = 'http://localhost:8080/priceList/create';
+      console.warn("gledaj")
+      console.warn(pricelist)
       await this.http.post(url,pricelist).toPromise().then(data=>{
         alert(data);
       })
+    }
+
+     makeCopy(priceListToCopy:any){
+      let url = 'http://localhost:8080/priceList/copy';
+      return this.http.post(url,priceListToCopy);
+      // await this.http.post(url,priceListToCopy).toPromise().then(data=>{
+      //   returnData=data;
+      //   // console.warn(data);
+      // })
+      // return returnData;
     }
     
   
@@ -46,6 +59,9 @@ export class PriceListService {
 
     ];
   }
+
+
+
 
 }
 

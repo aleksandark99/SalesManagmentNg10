@@ -13,6 +13,8 @@ import { OrderComponent } from './components/order/order.component';
 import { DatePipe } from '@angular/common';
 import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
 
+// import { BehaviorSubject } from 'rxjs';
+
 
 
 @NgModule({
@@ -22,6 +24,8 @@ import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http'
     CreatePricelistComponent,
     NavbarComponent,
     OrderComponent,
+    // BehaviorSubject
+
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,7 @@ import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http'
     MDBBootstrapModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
 
   ],
   providers: [DatePipe],

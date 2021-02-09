@@ -53,7 +53,7 @@
           <tr mdbTableCol *ngFor="let el of elements">
             <th scope="row">{{ el.id }}</th>
             <td>{{ el.name }}</td>
-            <td>{{ el.price }}</td>
+            <td contenteditable="true" (keyup)="changeValue(id, 'price', $event)" (blur)="updateList(id, 'price', $event)">{{ el.price }}</td>
             <td>{{ el.type }}</td>
             <td><span class="table-remove">
               <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="removeItem(el.id)">Remove</button>
