@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
-import { Pricelist } from '../interfaces_responses/pricelist';
+import { PriceListItemResponse } from '../interfaces_responses/pricelist-item-response';
+
 
 
 
@@ -18,9 +19,9 @@ export class FetchPricelistItemsService {
   }
 
   //servis za fetch-ovanje CommodityDto-ova sa njihovim Unit-ma i Porezima 
-   getPricelistItems(date : string) : Observable<Pricelist>{
+   getPricelistItems(date : string) : Observable<PriceListItemResponse>{
 
-    return  this.httpClient.get<Pricelist>(FetchPricelistItemsService.baseUrl+"priceList/pricelistItems/" + date);
+    return  this.httpClient.get<PriceListItemResponse>(FetchPricelistItemsService.baseUrl+"priceList/pricelistItems/" + date);
   
   }
 

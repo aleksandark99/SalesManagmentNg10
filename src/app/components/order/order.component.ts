@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PartnerService } from 'src/app/service/partner.service';
 import {Partner} from "../../interfaces_responses/partner"
-import {PriceListItemsDto} from "../../interfaces_responses/pricelistitemsdto"
-import { Item } from 'src/app/interfaces_responses/item';
 import { FetchPricelistItemsService } from 'src/app/service/fetch-pricelist-items.service';
 import { OrderServiceService } from 'src/app/service/order-service.service';
 import { OrderItem } from 'src/app/interfaces_requests/order-item';
+import { CommodityDto } from 'src/app/interfaces_responses/commodity-dto';
 
 
 
@@ -28,27 +27,21 @@ export class OrderComponent implements OnInit {
   //postojeci poslovni partneri iz baze
   partners : Partner[] = [];
   
-  //lista Item-a, koji u suštini predstavljaju listu RobaIliUsluga
-  items : Item[] = [];
-
   //ukupna cena svih stavki sa pripadajucim porezima
   orderTotal : Number;
 
-  //lista jedinica za jednu RobuIliUslugu
-  units : PriceListItemsDto[] = [];
+  //trenutno izabrani Commodity
+  currentCommodity : CommodityDto;
+
+  //lista CommodityDto objekata (koji predstavalju cenovnik) za izabrani datum
+  commodities : CommodityDto[] = [];
   
   //izabrani BussinesPartner za koga se kreira porudzbenica
   currentPartner : Partner;
 
   //kolicina za stavku prilikom kreiranja novog reda (stavke) u tabeli
   currentAmount = 0;
-
-  //predstavlja trenutno selektovanu RobuIliUslugu (Commodity) [ovaj objekat uključuje i listu jednica (Unita-) u kojima se moze kupiti]
-  currentItem : Item;
   
-  //trenutno selektovana jednica (Unit) za izabranu RobuIliUslugu (Commodity)
-  currentUnit : PriceListItemsDto;
-
   //datum na kalendaru, od ovog datuma zavisi koje sve Commodity-je tj. RobeIliUsluge (zajedno sa njihovim jedinicama u kojima se sve prodaju) koje server vraca
   selectedDate : Date;
 
@@ -130,20 +123,19 @@ export class OrderComponent implements OnInit {
     //dummy print
     console.log(x.getTime())
 
-    //praznimo sve liste ako se promeni datum 
-    this.currentItem = null;
-    this.items = [];
-    this.units = [];
-
-    this.orderItems = [];
-
+    //U slucaju promene datuma: praznimo listu redova za tabelu, setujemo trenutno izabrani Commodity na null i ukupni total setujemo na 0
+    this.currentCommodity = null;
+    this.orderItems = []
     this.orderTotal = 0;
 
 
-    //ucitavanje novi podataka sa servera
+    //ucitavanje novi podataka sa servera, za novi datum
     this.servicePricelistItems.getPricelistItems(x.getTime().toString()).subscribe(data => { 
-      this.items = data.items;
-      console.log(data.items)
+      this.commodities = data.commodities;
+      console.log(data.commodities.length)
+      //console.log(this.commodities.length)
+      
+      //console.log(data.items)
     } );
 
   }
@@ -158,34 +150,34 @@ export class OrderComponent implements OnInit {
 
   add() {
 
-    if (this.selectedDate != null && this.currentItem != null && this.currentUnit != null && this.currentAmount >= 0) {
+    if (this.selectedDate != null && this.currentCommodity != null && this.currentAmount >= 0) {
       
-      console.log("poooooooorez za commodity: " + this.currentItem.commodity.taxRate)
+      //console.log("poooooooorez za commodity: " + this.currentItem.commodity.taxRate)
 
-      let basis =  this.currentAmount.valueOf() * this.currentUnit.price.valueOf();
-      let taxRate = this.currentItem.commodity.taxRate.valueOf()
-      let taxAmt = basis * (taxRate / 100);
+      // let basis =  this.currentAmount.valueOf() * this.currentUnit.price.valueOf();
+      // let taxRate = this.currentItem.commodity.taxRate.valueOf()
+      // let taxAmt = basis * (taxRate / 100);
 
+      //privremeni objekti koji popunjavaju redove u tabeli
       let tempOrderItem = {
 
-        commodityId : this.currentItem.commodity.commodityId,
-        tax : this.currentItem.commodity.taxRate,
-        name : this.currentItem.commodity.commodityName,
-        description : this.currentItem.commodity.description,
-        unit : this.currentUnit.unitLongName,
-        abbreviation : this.currentUnit.unitShortName,
+        commodityId : this.currentCommodity.commodityId,
+        tax : this.currentCommodity.tax,
+        name : this.currentCommodity.name, //commodity name
+        description : this.currentCommodity.description, //commodity description
+        unit : this.currentCommodity.unitName,
+        abbreviation : this.currentCommodity.unitShortName,
         amount : this.currentAmount,
-        unitPrice : this.currentUnit.price,
-        taxAmount : taxAmt
+        unitPrice : this.currentCommodity.price,
+        taxAmount : (this.currentCommodity.price.valueOf() * this.currentAmount) * (this.currentCommodity.tax.valueOf() / 100)
 
       }
 
       console.log("pooorez u temp obj: " + tempOrderItem.taxAmount.valueOf())
 
-      this.orderTotal = this.orderTotal.valueOf() + (tempOrderItem.amount * tempOrderItem.unitPrice)
+      this.orderTotal = this.orderTotal.valueOf() + (tempOrderItem.amount * tempOrderItem.unitPrice.valueOf() + tempOrderItem.taxAmount.valueOf())
+      
       this.orderItems.push(tempOrderItem)
-
-     
 
     }
     
@@ -193,13 +185,10 @@ export class OrderComponent implements OnInit {
   }
 
 
-  onClickedUnit(){
-      console.log("clicked unit")
-  }
 
   //setuje listu jedinica za odredjeni commodity
   onClickedCommodity() {
-      this.units = this.currentItem.priceListItemsDto;
+    //this.currentCommodity = this.currentCommodity
   }
 
   onClickedPartner(){ 

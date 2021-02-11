@@ -177,7 +177,7 @@
                   
                     <div class="row">
 
-                      <div class="col-lg-3 d-flex justify-content-center col-md-auto my-2">
+                      <div class="col-lg-4 d-flex justify-content-center col-md-auto my-2">
                         
                         <div class="md-form">
                           <input type="date" [(ngModel)]="selectedDate" (ngModelChange)="onClickCalendar()" id="input" class="form-control" mdbInput>
@@ -186,28 +186,17 @@
 
                       </div>
                   
-                      <div class="col-lg-3 d-flex justify-content-center col-md-auto my-2">
+                      <div class="col-lg-4 d-flex justify-content-center col-md-auto my-2">
                         
-                        <select [(ngModel)]="currentItem" (ngModelChange)="onClickedCommodity()" class="browser-default custom-select">
+                        <select [(ngModel)]="currentCommodity" (ngModelChange)="onClickedCommodity()" class="browser-default custom-select">
                
-                          <option *ngFor="let commodity of items" [ngValue]="commodity">{{ commodity.commodity.commodityName }}</option>
+                          <option *ngFor="let commodity of commodities" [ngValue]="commodity">{{ commodity.name}} {{commodity.unitName}} {{commodity.price}}din</option>
                         
                         </select>
 
                       </div>
 
-                      <div class="col-lg-3 d-flex justify-content-center col-md-auto my-2">
-
-                        <select [(ngModel)]="currentUnit" (ngModelChange)="onClickedUnit()" [disabled]="!currentItem" class="browser-default custom-select">
-
-                          <option *ngFor="let unit of units" [ngValue]="unit">{{ unit.unitLongName }} ({{unit.unitShortName}}) ({{unit.price}})</option>
-                          
-                        </select>
-
-                      </div>
-                  
-
-                      <div class="col-lg-3 d-flex justify-content-center col-md-auto my-2">
+                      <div class="col-lg-4 d-flex justify-content-center col-md-auto my-2">
 
                         <form [formGroup]="amountForm" >
                           <input onkeyup="if(this.value<0){this.value= this.value * -1}" [(ngModel)]="currentAmount" class="form-control" formControlName="amount" mdbInput mdbValidate placeholder="Amount"  type="number" min="0" id="amount" class="form-control">
@@ -292,6 +281,14 @@
               </div>
           </div>
           <!-- Editable table -->
+
+          <!-- <div class="container">
+            <div class="row">            
+              <div class="col-lg-12 d-flex justify-content-center col-md-auto my-5">
+                <button type="button" [(ngModel)]="orderTotal"  class="btn btn-primary btn-lg" [disabled]="true">{{orderTotal}}</button>
+              </div>
+            </div>
+          </div> -->
 
           <div class="container">
             <div class="row">            
