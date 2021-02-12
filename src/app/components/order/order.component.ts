@@ -6,6 +6,7 @@ import { FetchPricelistItemsService } from 'src/app/service/fetch-pricelist-item
 import { OrderServiceService } from 'src/app/service/order-service.service';
 import { OrderItem } from 'src/app/interfaces_requests/order-item';
 import { CommodityDto } from 'src/app/interfaces_responses/commodity-dto';
+import { OrderDto } from 'src/app/interfaces_requests/order-dto';
 
 
 
@@ -28,7 +29,7 @@ export class OrderComponent implements OnInit {
   partners : Partner[] = [];
   
   //ukupna cena svih stavki sa pripadajucim porezima
-  orderTotal : Number;
+  orderTotal = 0;
 
   //trenutno izabrani Commodity
   currentCommodity : CommodityDto;
@@ -132,10 +133,6 @@ export class OrderComponent implements OnInit {
     //ucitavanje novi podataka sa servera, za novi datum
     this.servicePricelistItems.getPricelistItems(x.getTime().toString()).subscribe(data => { 
       this.commodities = data.commodities;
-      console.log(data.commodities.length)
-      //console.log(this.commodities.length)
-      
-      //console.log(data.items)
     } );
 
   }
@@ -144,19 +141,13 @@ export class OrderComponent implements OnInit {
   remove(id: any) {
       var item = this.orderItems[id];
       this.orderItems.splice(id, 1);
-      this.orderTotal = this.orderTotal.valueOf() - (item.amount * item.unitPrice)
+      this.orderTotal = this.orderTotal.valueOf() - ((item.amount * item.unitPrice) + item.taxAmount)
      
   }
 
   add() {
 
     if (this.selectedDate != null && this.currentCommodity != null && this.currentAmount >= 0) {
-      
-      //console.log("poooooooorez za commodity: " + this.currentItem.commodity.taxRate)
-
-      // let basis =  this.currentAmount.valueOf() * this.currentUnit.price.valueOf();
-      // let taxRate = this.currentItem.commodity.taxRate.valueOf()
-      // let taxAmt = basis * (taxRate / 100);
 
       //privremeni objekti koji popunjavaju redove u tabeli
       let tempOrderItem = {
@@ -173,10 +164,9 @@ export class OrderComponent implements OnInit {
 
       }
 
-      console.log("pooorez u temp obj: " + tempOrderItem.taxAmount.valueOf())
-
       this.orderTotal = this.orderTotal.valueOf() + (tempOrderItem.amount * tempOrderItem.unitPrice.valueOf() + tempOrderItem.taxAmount.valueOf())
       
+      //dodavanje u objekta iz reda tabele u privremenu listu
       this.orderItems.push(tempOrderItem)
 
     }
@@ -196,11 +186,14 @@ export class OrderComponent implements OnInit {
   }
 
   makeOrder(){
-    var newOrder = {orderItem : [], bussinesPartnerId : -1, totalBasis : 0, totalTax : 0, total : 0, totalWithoutTax : 0, totalWithTax  : 0};
-   
 
-        var totalBas = 0;
-        var totalT = 0;
+        var orderDto = <OrderDto>{};
+       
+        orderDto.bussinesPartnerId = this.currentPartner.id;
+        orderDto.totalBasis = 0;
+        orderDto.taxAmount = 0;
+        orderDto.total = 0;
+        orderDto.items = [];
 
         this.orderItems.forEach(i => {
 
@@ -209,33 +202,33 @@ export class OrderComponent implements OnInit {
           tempOrderItem.commodityId = i.commodityId;
           tempOrderItem.amount = i.amount;
           tempOrderItem.unitPrice = i.unitPrice;
-          tempOrderItem.basis = tempOrderItem.amount.valueOf() * tempOrderItem.unitPrice.valueOf();
           tempOrderItem.taxPercentage = i.tax;
+          tempOrderItem.basis = tempOrderItem.amount.valueOf() * tempOrderItem.unitPrice.valueOf();
           tempOrderItem.taxAmount = i.taxAmount;
           tempOrderItem.total = tempOrderItem.basis.valueOf() + tempOrderItem.taxAmount.valueOf();
 
-          totalBas += tempOrderItem.basis.valueOf();
-          totalT += tempOrderItem.taxAmount.valueOf();
 
-          newOrder.orderItem.push(tempOrderItem);
+          orderDto.totalBasis = orderDto.totalBasis.valueOf() + tempOrderItem.basis.valueOf();
+          orderDto.taxAmount = orderDto.taxAmount.valueOf() + tempOrderItem.taxAmount.valueOf();
+          orderDto.total = orderDto.total.valueOf() + tempOrderItem.total.valueOf();
+
+          orderDto.items.push(tempOrderItem);
+
         })
 
-    newOrder["bussinesPartnerId"] = this.currentPartner.id.valueOf();
-    newOrder["totalBasis"] = totalBas;
-    newOrder["totalTax"] = totalT;
-    newOrder["totalWithoutTax"] = this.orderTotal.valueOf();
-    newOrder["total"] = newOrder["totalTax"] + newOrder["totalBasis"];
+        console.log("printanje porudzbenice");
+        console.log(orderDto);
 
 
-    //console.log(newOrder)
-
-    this.invoiceOrderService.makeOrder(newOrder).subscribe(data => {
+    this.invoiceOrderService.makeOrder(orderDto).subscribe(data => {
       if (!data.error || data.code != 200){
         alert("Order succesfully created")
       } else {
         alert("Order is not created")
       }
 
+      this.commodities = [];
+      this.currentCommodity = null;
       this.orderTotal = 0;
       this.orderItems = [];
 

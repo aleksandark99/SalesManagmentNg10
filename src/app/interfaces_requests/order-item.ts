@@ -2,8 +2,8 @@ export interface OrderItem{
     commodityId: Number,
     amount : Number,
     unitPrice : Number,
-    basis : Number,
     taxPercentage : Number,
+    basis : Number,
     taxAmount : Number,
     total : Number
 }
