@@ -12,6 +12,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { OrderComponent } from './components/order/order.component';
 import { DatePipe } from '@angular/common';
 import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
+import { DisplayPricelistComponentComponent } from './components/display-pricelist-component/display-pricelist-component.component';
 
 // import { BehaviorSubject } from 'rxjs';
 
@@ -24,6 +25,7 @@ import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http'
     CreatePricelistComponent,
     NavbarComponent,
     OrderComponent,
+    DisplayPricelistComponentComponent,
     // BehaviorSubject
 
   ],
