@@ -7,37 +7,99 @@
                 <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Pricelist overview</h3>
                 <div class="card-body">
                   <div id="table" class="table-editable">
-                    <!-- aa -->
-                    
+                    <!-- pocetak container-a i reda -->
                     <div class="container">
-                    
                       <div class="row">
-                    
+
+                         <!-- pocetak dropdown-a -->
                         <div class="col-lg-4 d-flex justify-content-center col-md-auto my-2">
                           
-                          <select [(ngModel)]="currentCommodity" (ngModelChange)="onClickedCommodity()" class="browser-default custom-select">
-                 
-                            <option *ngFor="let commodity of commodities" [ngValue]="commodity">{{ commodity.name}} {{commodity.unitName}} {{commodity.price}}din</option>
-                          
+                          <select [(ngModel)]="currentPricelist" (ngModelChange)="onClickedPricelist()"  class="browser-default custom-select">
+             
+                            <option *ngFor="let pricelist of pricelists" [ngValue]="pricelist">Valid from: {{pricelist.validFrom}}</option>
+                      
                           </select>
-  
                         </div>
-                        
-                        <!-- (click)="makeOrder()" -->
+                        <!-- kraj dropdown-a -->
+                        <!-- pocetak modala -->
+                        <div class="col-lg-4 d-flex justify-content-center col-md-auto my-2">
+                          <button type="button" [disabled]="!currentPricelist" class="btn btn-primary btn-lg"  (click)="basicModal.show()">Copy pricelist</button>
+                          <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close pull-right" aria-label="Close"  (click)="basicModal.hide()">
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                  <h4 class="modal-title w-100" id="myModalLabel">Copy pricelist options</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <!-- body start -->
+                                  <div class="container">
+                                    <div class="row">
+                                        <div class="col col-lg-12 col-md-6">
+                                          <form [formGroup]="controlsFormGroup">
+                                            <!-- Default unchecked -->
+                                            <div class="custom-control custom-radio">
+                                              <input type="radio" class="custom-control-input" id="1" value="true" formControlName="radioExample" mdbInput>
+                                              <label class="custom-control-label" for="1">Increase</label>
+                                            </div>
+  
+                                            <!-- Default checked -->
+                                            <div class="custom-control custom-radio">
+                                              <input type="radio" class="custom-control-input" id="2" value="false" formControlName="radioExample" mdbInput>
+                                              <label class="custom-control-label" for="2">Decrease</label>
+                                            </div>
+
+                                           
+
+                                            <div class="md-form">
+                                              <input type="number" formControlName="numberInput" class="form-control" id="numberInputEx" mdbInput>
+                                              <label for="numberInputEx">Percentage</label>
+                                              <mdb-error *ngIf="numberInput.invalid && (numberInput.dirty || numberInput.touched)">Invalid tax percent</mdb-error>
+                                              <mdb-success *ngIf="numberInput.valid && (numberInput.dirty || numberInput.touched)"></mdb-success>
+                                            </div>
+                                          
+                                          </form>
+                                         
+
+
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <!-- body end -->
+          
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Close</button>
+                                  <button type="button" [disabled]="controlsFormGroup.invalid" mdbBtn color="primary" class="relative waves-light" (click)="copyPricelistAndCloseModal(basicModal)" mdbWavesEffect>Copy pricelist</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                            <!-- modal end -->
+                        </div>
+                        <!-- kraj modala -->
+                        <!-- pocetak buttona -->
                         <div class="col-lg-4 d-flex justify-content-center col-md-auto my-2">
                             
-                            <button type="button" class="btn btn-primary btn-lg" [disabled]="false">Make copy</button>
-                        
+                          <button type="button" class="btn btn-primary btn-lg" [disabled]="false">Create new pricelist</button>
+                  
                         </div>
+                        <!-- kraj buttona -->
 
-
-                         <div class="col-lg-4 d-flex justify-content-center col-md-auto my-2">
-                            
-                            <button type="button" class="btn btn-primary btn-lg" [disabled]="false">Create new pricelist</button>
-                        
-                        </div>
-                    
+                      <!-- ovde je kraj -->
+                      </div>
                     </div>
+                    <!-- kraj container-a i reda -->
+                   
+
+
+
+
+                  </div>                  
+    
+                </div>
 
 
                     <table class="table table-bordered table-responsive-md table-striped text-center">
@@ -52,69 +114,39 @@
                         <th class="text-center">Commodity group</th>
                         <th class="text-center">Tax rate</th>
                       </tr>
-                     
-                      <tr *ngFor="let item of orderItems; let id = index">  
+
+                      <tr *ngFor="let pricelistDetailDto of pricelistsDetails; let id = index">  
                         <td>
                           <span contenteditable="false">{{id+1}}</span>
                         </td>
                         <td>
-                          <span contenteditable="false">{{item.name}}</span>
+                          <span contenteditable="false">{{pricelistDetailDto.item}}</span>
                         </td>
                         <td>
-                          <span contenteditable="false">{{item.description}}</span>
+                          <span contenteditable="false">{{pricelistDetailDto.description}}</span>
                         </td>
                         <td>
-                          <span contenteditable="false">{{item.unit}}</span>
+                          <span contenteditable="false">{{pricelistDetailDto.goods}}</span>
                         </td>
                         <td>
-                          <span contenteditable="false">{{item.abbreviation}}</span>
+                          <span contenteditable="false">{{pricelistDetailDto.unitPrice}}</span>
                         </td>
                         <td>
-                          <span contenteditable="false">{{item.amount}}</span>
+                          <span contenteditable="false">{{pricelistDetailDto.unitName}}</span>
                         </td>
                         <td>
-                          <span contenteditable="false">{{item.unitPrice}}</span>
+                          <span contenteditable="false">{{pricelistDetailDto.unitShortName}}</span>
                         </td>
                         <td>
-                          <span contenteditable="false">{{item.tax}}</span>
+                          <span contenteditable="false">{{pricelistDetailDto.commodityGroup}}</span>
                         </td>
                         <td>
-                          <span contenteditable="false">{{item.amount * item.unitPrice}}</span>
-                        </td>
-                        <td>
-                          <span contenteditable="false">{{item.amount * item.unitPrice + item.taxAmount}}</span>
-                        </td>
-                        
-                        <td>
-                          <span class="table-up">
-                            <a class="indigo-text">
-                              <mdb-icon fas icon="long-arrow-alt-up"></mdb-icon>
-                            </a>
-                          </span>
-                          <span class="table-down">
-                            <a class="indigo-text">
-                              <mdb-icon fas icon="long-arrow-alt-down"></mdb-icon>
-                            </a>
-                          </span>
-                        </td>
-                        <td>
-                          <span class="table-remove">
-                            <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="remove(id)">Remove</button>
-                          </span>
+                          <span contenteditable="false">{{pricelistDetailDto.taxRate}}</span>
                         </td>
                       </tr>
                     </table>
-                  </div>
-                </div>
+                  
             </div>
-            <!-- Editable table -->
-  
-
-    
-  
-  
-        </div>
-  
-        
-  
     </div>
+  </div>   
+</div>

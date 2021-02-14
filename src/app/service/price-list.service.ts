@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http'
+import { Observable, throwError } from 'rxjs';
+import { PricelistResponse } from '../interfaces_responses/pricelist-response';
+import { PricelistDetailResponse } from '../interfaces_responses/pricelist-detail-response';
+
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +63,27 @@ export class PriceListService {
 
     ];
   }
+
+  //servis za fetch-ovanje Pricelist-a sa datumom vazanje i njegovim PK
+  getPricelists() : Observable<PricelistResponse>{
+
+    let url = 'http://localhost:8080/';
+
+    return  this.http.get<PricelistResponse>(url+"priceList/");
+  
+  }
+
+  //Service return price-list items and their associated date for price-list overview
+  getPricelistDetails(pricelistId : Number) : Observable<PricelistDetailResponse>{
+
+    let url = 'http://localhost:8080/';
+    console.log
+    return this.http.get<PricelistDetailResponse>(url+"priceList/details/" + pricelistId.toString())
+
+  }
+
+
+
 
 
 
