@@ -1,0 +1,104 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col col-lg-12 col-md-6">
+            
+            <!-- Editable table -->
+            <div class="card">
+                <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Invoice book</h3>
+                <div class="card-body">
+                  <div id="table" class="table-editable">
+                    <!-- aa -->
+                    
+                    <div class="container">
+                    
+                      <div class="row">
+  
+                        <div class="col-lg-4 d-flex justify-content-center col-md-auto my-2">
+                          
+                          <div class="md-form">
+                            <input type="date" [(ngModel)]="fromDate" id="input1" class="form-control" mdbInput>
+                            <label for="input1">From date</label>
+                          </div>
+  
+                        </div>
+                    
+                        <div class="col-lg-4 d-flex justify-content-center col-md-auto my-2">
+                          
+                            <div class="md-form">
+                              <input type="date" [(ngModel)]="toDate"  id="input2" class="form-control" mdbInput>
+                              <label for="input2">To date</label>
+                            </div>
+    
+                        </div>
+  
+                        <div class="col-lg-4 d-flex justify-content-center col-md-auto my-2">
+                            
+                            <button type="button" class="btn btn-primary btn-lg"  (click)="onClickFilter()">Filter</button>
+                    
+                        </div> 
+  
+                    </div>
+               <!-- invoiceNumber : String
+                    invoiceDate : String
+                    basisTotal : Number
+                    taxTotal : Number
+                    totalAmmount : Number
+                    status : String
+                    bussinesPartner : String
+                    urlJasperReport : String -->
+                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                      <tr>
+                        <th class="text-center">Number</th>
+                        <th class="text-center">Invoice number</th>
+                        <th class="text-center">Invoice date</th>
+                        <th class="text-center">Basis total</th>
+                        <th class="text-center">Tax total</th>
+                        <th class="text-center">Total sum</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Bussines partner</th>
+                        <th class="text-center">Report</th>
+                      </tr>
+                     
+                      <tr *ngFor="let item of invoiceItems; let id = index">  
+                        <td>
+                          <span contenteditable="false">{{id+1}}</span>
+                        </td>
+                        <td>
+                          <span contenteditable="false">{{item.invoiceNumber}}</span>
+                        </td>
+                        <td>
+                          <span contenteditable="false">{{item.invoiceDate}}</span>
+                        </td>
+                        <td>
+                          <span contenteditable="false">{{item.basisTotal}}</span>
+                        </td>
+                        <td>
+                          <span contenteditable="false">{{item.taxTotal}}</span>
+                        </td>
+                        <td>
+                          <span contenteditable="false">{{item.totalAmmount}}</span>
+                        </td>
+                        <td>
+                          <span contenteditable="false">{{item.status}}</span>
+                        </td>
+                        <td>
+                          <span contenteditable="false">{{item.bussinesPartner}}</span>
+                        </td>
+                        <td>
+                          <a target="_blank" href={{item.urlJasperReport}}>report pdf</a>
+                        </td>
+                        
+                        
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            <!-- Editable table -->
+  
+  
+        </div>
+  
+        
+  
+    </div>

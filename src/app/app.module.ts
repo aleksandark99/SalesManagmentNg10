@@ -13,6 +13,7 @@ import { OrderComponent } from './components/order/order.component';
 import { DatePipe } from '@angular/common';
 import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
 import { DisplayPricelistComponentComponent } from './components/display-pricelist-component/display-pricelist-component.component';
+import { PricelistBookComponent } from './components/pricelist-book/pricelist-book.component';
 
 // import { BehaviorSubject } from 'rxjs';
 
@@ -26,6 +27,7 @@ import { DisplayPricelistComponentComponent } from './components/display-priceli
     NavbarComponent,
     OrderComponent,
     DisplayPricelistComponentComponent,
+    PricelistBookComponent,
     // BehaviorSubject
 
   ],
