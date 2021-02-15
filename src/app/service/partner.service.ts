@@ -16,12 +16,12 @@ export class PartnerService {
   }
 
   getPartners() : Observable<Partner[]>{
-    return this.httpClient.get<Partner[]>(PartnerService.baseUrl+"dummy/partners")
+    return this.httpClient.get<Partner[]>(PartnerService.baseUrl+"bussinesPartner/")
     
   }
 
   addPartner(partner : Partner) : Observable<Partner>{
-    return this.httpClient.post<Partner>(PartnerService.baseUrl+"dummy/partner", partner)
+    return this.httpClient.post<Partner>(PartnerService.baseUrl+"bussinesPartner/add", partner)
     
   }
 }
