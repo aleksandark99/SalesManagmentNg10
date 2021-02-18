@@ -3,6 +3,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { PricelistResponse } from '../interfaces_responses/pricelist-response';
 import { PricelistDetailResponse } from '../interfaces_responses/pricelist-detail-response';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ import { PricelistDetailResponse } from '../interfaces_responses/pricelist-detai
 export class PriceListService {
 
 
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient,private _router: Router) { }
   
 
     getArticles1(){
@@ -38,6 +39,8 @@ export class PriceListService {
       console.warn(pricelist)
       await this.http.post(url,pricelist).toPromise().then(data=>{
         alert(data);
+        this._router.navigate(['/display/pricelist'])
+
       })
     }
 

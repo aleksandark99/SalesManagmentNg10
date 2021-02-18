@@ -3,6 +3,8 @@ import { PricelistDto } from 'src/app/interfaces_responses/pricelist-dto';
 import { PricelistDetailDto } from 'src/app/interfaces_responses/pricelist-detail-dto';
 import { PriceListService } from 'src/app/service/price-list.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-display-pricelist-component',
@@ -33,7 +35,7 @@ export class DisplayPricelistComponentComponent implements OnInit {
   //servis za fetch-ovanje Pricelist-a sa datumom vazanje i njegovim PK
   pricelistService : PriceListService;
 
-  constructor(pricelistService : PriceListService, private formBuilder : FormBuilder) {
+  constructor(pricelistService : PriceListService, private formBuilder : FormBuilder,private _router: Router) {
     
     this.pricelistService = pricelistService;
      
@@ -74,7 +76,11 @@ export class DisplayPricelistComponentComponent implements OnInit {
       this.increase = JSON.parse(this.radioExample.value);
       this.increaseRatePercentage = this.numberInput.value;
       this.pricelistId = this.currentPricelist.pricelistId;
-
+      console.log(this.increase +" "+ this.increaseRatePercentage + " " + this.pricelistId)
+    }
+    if(this.increase !=null && this.increaseRatePercentage !=null && this. pricelistId!=null){
+      let state ={ priceListId: this.pricelistId ,increase: this.increase, percentage:this.increaseRatePercentage }
+      this._router.navigate(['/createPriceList'], {state})
     }
   }
 

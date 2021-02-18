@@ -124,7 +124,7 @@ getSelarticle(){
   createPricelist(){
     // (this.elements.length>0 && this.elements!=null &&this.isDateValid() ) ? console.log("send to backend to be created") : alert("Data not valid");
 
-    let date=      new Date(this.selectedDate).toString()
+    let date=      new Date(this.selectedDate).getTime()
     let priceListItems = this.elements;
     let priceListToSend={
       date,
