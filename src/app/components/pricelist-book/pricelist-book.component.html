@@ -1,11 +1,17 @@
-<div class="container my-5">
+<div class="container my-5 ">
     <div class="row">
         <div class="col col-lg-12 col-md-6">
             
             <!-- Editable table -->
-            <div class="card">
+            <!-- <div class="card">
                 <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Invoice book</h3>
-                <div class="card-body">
+                <div class="card-body"> -->
+                  <div>
+                    <h3 class="d-flex justify-content-center">Invoice book</h3>
+
+                  </div>
+                  <br>
+                  <br>
                   <div id="table" class="table-editable">
                     <!-- aa -->
                     
@@ -92,9 +98,20 @@
                       </tr>
                     </table>
                   </div>
-                </div>
-            </div>
-            <!-- Editable table -->
+
+                  <div class="d-flex justify-content-center">
+                    <!-- <button type="button" class="btn btn-primary btn-lg"  
+                    href="http://127.0.0.1:9000/invoice-bucket/invoiceBook?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20210305%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210305T232536Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9d6a4dbb24d70d5b347ee50d65dbbb2dfad6838444ddf2dd7a30506d809153d1">
+                      
+                      Generate outgoing invoice book report</button> -->
+                      <a target="_blank" href="{{url}}"
+                      
+                      class="btn btn-primary btn-lg"
+                      >
+                      Generate outgoing invoice book report</a>
+
+                  </div>
+
   
   
         </div>

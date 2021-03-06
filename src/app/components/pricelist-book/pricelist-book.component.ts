@@ -15,6 +15,7 @@ export class PricelistBookComponent implements OnInit {
 
   //Invoice-i koji kreirani izmedju datuma koje je korisnik izabrao na front-u
   invoiceItems : InvoiceDto[] = [];
+  url:any;
 
   //servis za fetch-ovanje liste Invoice DTO-va u zavisnosti od datuma
   invoiceService : InvoiceService;
@@ -34,7 +35,11 @@ export class PricelistBookComponent implements OnInit {
 
     if (Number(from) <= Number(to)){
       this.invoiceService.getInvoiceDto(from.getTime().toString(), to.getTime().toString()).subscribe(data => this.invoiceItems = data);
-
+      this.invoiceService.getBookUrl(from.getTime().toString(), to.getTime().toString()).subscribe(data =>
+          {console.warn(data);
+          this.url=data.message;
+      
+      });
     }
   }
 

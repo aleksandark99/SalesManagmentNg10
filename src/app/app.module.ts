@@ -14,6 +14,7 @@ import { DatePipe } from '@angular/common';
 import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
 import { DisplayPricelistComponentComponent } from './components/display-pricelist-component/display-pricelist-component.component';
 import { PricelistBookComponent } from './components/pricelist-book/pricelist-book.component';
+import { CommodityComponent } from './components/commodity/commodity.component';
 
 // import { BehaviorSubject } from 'rxjs';
 
@@ -28,6 +29,7 @@ import { PricelistBookComponent } from './components/pricelist-book/pricelist-bo
     OrderComponent,
     DisplayPricelistComponentComponent,
     PricelistBookComponent,
+    CommodityComponent,
     // BehaviorSubject
 
   ],

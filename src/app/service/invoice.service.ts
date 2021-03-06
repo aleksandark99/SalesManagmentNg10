@@ -22,6 +22,11 @@ export class InvoiceService {
     
   }
 
+  getBookUrl(from : string, to : string): Observable<any> {
+
+    return  this.httpClient.get(InvoiceService.baseUrl+"invoice/generateInvoiceBookReport/" + from + "/" + to);
+    
+  }
 
 
 }
