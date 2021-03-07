@@ -222,9 +222,9 @@ export class OrderComponent implements OnInit {
 
     this.invoiceOrderService.makeOrder(orderDto).subscribe(data => {
       if (data.error || data.code != 200){
-        alert("Order succesfully created")
-      } else {
         alert("Order is not created")
+      } else {
+        alert("Order succesfully created")
       }
 
       this.commodities = [];
