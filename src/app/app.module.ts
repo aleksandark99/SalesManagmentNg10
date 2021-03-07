@@ -15,6 +15,7 @@ import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http'
 import { DisplayPricelistComponentComponent } from './components/display-pricelist-component/display-pricelist-component.component';
 import { PricelistBookComponent } from './components/pricelist-book/pricelist-book.component';
 import { CommodityComponent } from './components/commodity/commodity.component';
+import { TaxComponent } from './components/tax/tax.component';
 
 // import { BehaviorSubject } from 'rxjs';
 
@@ -30,6 +31,7 @@ import { CommodityComponent } from './components/commodity/commodity.component';
     DisplayPricelistComponentComponent,
     PricelistBookComponent,
     CommodityComponent,
+    TaxComponent,
     // BehaviorSubject
 
   ],

@@ -17,7 +17,7 @@ export class DisplayPricelistComponentComponent implements OnInit {
   increase : Boolean;
   increaseRatePercentage : Number;
   pricelistId : Number
-
+  
   //trenutno izabrani cenovnik
   currentPricelist : PricelistDto;
 

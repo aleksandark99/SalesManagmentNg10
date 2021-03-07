@@ -1,0 +1,93 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col col-lg-12 col-md-6">
+            
+            <!-- Editable table -->
+            <div class="card">
+                <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Pricelists overview</h3>
+                <div class="card-body">
+                  <div id="table" class="table-editable">
+                    <div class="container">
+                        <!-- za add groupa -->
+                        <div class="row">
+                            <div class="col-4">            
+                                    <div class="form-row mb-4">
+                                      <div class="input-group mb-3 col-sm">
+                                        <input   type="text" placeholder="Group name"  class="form-control" [(ngModel)]="groupName" >
+                                  </div>
+                                </div>
+                              </div>
+                         
+                              <div class="col-4">
+                                <button class="btn btn-primary btn-md" mdbBtn color="primary" (click)="addGroup()"
+                                >
+                                  Add group
+                                </button>
+                              </div>
+                        </div>
+                      <div class="row">
+
+                         <!-- pocetak dropdown-a -->
+                        <div class="col-lg-3 d-flex justify-content-center col-md-auto my-2">
+                          
+                          <select [(ngModel)]="currentGroup" (ngModelChange)="onClickedGroupList()"  class="browser-default custom-select">
+             
+                            <option *ngFor="let group of groups" [ngValue]="group">{{group.name}}</option>
+                      
+                          </select>
+                        </div>
+                        <div class="col-3">            
+                            <div id="f" class="form-row mb-4">
+                              <div class="input-group mb-3 col-sm">
+                                <input   type="number" placeholder="tax %"  class="form-control" [(ngModel)]="taxPercenrage" >
+                          </div>
+                        </div>
+                      </div>
+                        <div class="col-3">
+                            <div class="md-form">
+                                <input type="date" id="input" class="form-control" mdbInput [(ngModel)]="selectedDate">
+                                <label for="input">Valid from:</label>
+                              </div>
+                          </div>
+                        <!-- kraj modala -->
+                        <!-- pocetak buttona -->
+                        <div class="col-lg-3">
+                          <button type="button" class="btn btn-primary btn-md" (click)="addTax()" >Add tax</button>
+                        </div>
+                        <!-- kraj buttona -->
+
+                      <!-- ovde je kraj -->
+                      </div>
+                    </div>
+                    <!-- kraj container-a i reda -->
+                   
+
+
+
+
+                  </div>                  
+    
+                </div>
+
+
+                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                      <tr>
+                        <th class="text-center">Tax %</th>
+                        <th class="text-center">Valid from (M/D/Y)</th>
+          
+                      </tr>
+
+                      <tr *ngFor="let tax of taxes">  
+                        <td>
+                          <span contenteditable="false">{{tax.percentage}}</span>
+                        </td>
+                        <td>
+                          <span contenteditable="false">{{tax.validFrom}}</span>
+                        </td>
+                      </tr>
+                    </table>
+                  
+            </div>
+    </div>
+  </div>   
+</div>

@@ -1,1 +1,61 @@
-<p>commodity works!</p>
+<div class="container my-5">
+    <div class="row">
+        <div class="col col-lg-12 col-md-6">
+
+            <!-- Editable table -->
+            <div class="card">
+              <!-- Default form login -->
+<div class="text-center border border-light p-5">
+
+    <p class="h4 mb-4">Add Commodity</p>
+  
+    <!-- Email -->
+    <input type="text" [(ngModel)]="name" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Name">
+  
+    <!-- Password -->
+    <input type="text" [(ngModel)]="description" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Description">
+  
+    <div class="d-flex justify-content-left">
+      <div>
+        <!-- Remember me -->
+        <mdb-checkbox [(ngModel)]="goods" [default]="true">Service</mdb-checkbox>
+      </div>
+    </div>
+    <!--mesto za unit select  -->
+    <div >
+        <p id="sel">Select unit   </p>
+
+   
+        <!-- <button mdbBtn color="info" block="true" class="my-4" type="submit">Add Unit</button> -->
+
+    <select [(ngModel)]="currentUnit" (ngModelChange)="onClickedUnitList()"  class="browser-default custom-select">
+             
+        <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
+  
+      </select>
+    <!--  -->
+</div>
+ 
+    <br>
+    <p id="sel">Select group  </p>
+
+        <!--mesto za group select  -->
+        <select [(ngModel)]="currentGroup" (ngModelChange)="onClickedGroupList()"  class="browser-default custom-select">
+             
+            <option *ngFor="let group of groups" [ngValue]="group">{{group.name}}</option>
+      
+          </select>
+    <!--  -->
+    <button mdbBtn color="info" block="true" class="my-4" type="submit" (click)="addCommodity()">Add commodity</button>
+  
+ 
+  
+  </div>
+  <!-- Default form login -->
+     <!-- <div>
+        <input type="text" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Name">
+        <input type="text" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Short name">
+    </div> -->
+        </div>
+    </div>
+</div>
